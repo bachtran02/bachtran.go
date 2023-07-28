@@ -4,6 +4,7 @@ import (
 	"context"
 	"embed"
 	"flag"
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -15,12 +16,6 @@ import (
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/exp/slog"
 	"golang.org/x/oauth2"
-)
-
-var (
-	version   = "unknown"
-	commit    = "unknown"
-	buildTime = "unknown"
 )
 
 var (
@@ -41,7 +36,7 @@ func main() {
 		os.Exit(-1)
 	}
 
-	slog.Info("Starting bachtran.io...", slog.Any("config", cfg), slog.Any("version", version), slog.Any("commit", commit), slog.Any("buildTime", buildTime))
+	slog.Info("Starting bachtran.dev...")
 
 	var (
 		tmplFunc libs.ExecuteTemplateFunc
@@ -67,7 +62,7 @@ func main() {
 	go s.Start()
 	defer s.Close()
 
-	slog.Info("started bachtran.io", slog.Any("listen_addr", cfg.ListenAddr))
+	slog.Info(fmt.Sprintf("Started bachtran.dev on %s", cfg.ListenAddr))
 	si := make(chan os.Signal, 1)
 	signal.Notify(si, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-si
