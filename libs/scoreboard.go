@@ -217,8 +217,8 @@ func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
 		},
 		Venue: event.Location,
 		Time: MatchTime{
-			Date: fmt.Sprintf("%s %d", userTime.Month().String(), userTime.Day()),
-			Time: fmt.Sprintf("%d:%02d", userTime.Hour(), userTime.Minute()),
+			Date: fmt.Sprintf("%d %s", userTime.Day(), userTime.Month().String()),
+			Time: fmt.Sprintf("%02d:%02d", userTime.Hour(), userTime.Minute()),
 		},
 		Status: Status{
 			Clock:       clock,
