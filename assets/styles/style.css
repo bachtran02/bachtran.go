@@ -1,8 +1,5 @@
 :root {
   --text-error: #d95e5e;
-}
-
-.dark {
   --bg-primary: #1d2433;
   --bg-secondary: #0d1828;
   --nav-button-bg: #222e41;
@@ -21,7 +18,6 @@
   --star: url("/assets/icons/star.png");
   --book: url("/assets/icons/book.png");
   --fork: url("/assets/icons/fork.png");
-  
 }
 
 *,

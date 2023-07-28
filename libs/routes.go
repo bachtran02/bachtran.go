@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"golang.org/x/exp/slog"
 )
 
 func (s *Server) Routes() http.Handler {
@@ -26,11 +27,11 @@ func (s *Server) Routes() http.Handler {
 func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 	data, err := s.FetchData(r.Context())
 	if err != nil {
-		fmt.Println("failed to fetch data: %w", err)
+		s.error(w, r, fmt.Errorf("failed to fetch data: %w", err), http.StatusInternalServerError)
 		return
 	}
 	if err = s.ParseMarkdown(data); err != nil {
-		log.Println("failed to parse README.md:", err)
+		log.Println("failed to parse ABOUTME.md:", err)
 		return
 	}
 
@@ -41,4 +42,20 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) redirectRoot(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (s *Server) error(w http.ResponseWriter, r *http.Request, err error, status int) {
+	if status == http.StatusInternalServerError {
+		slog.ErrorCtx(r.Context(), "internal server error", slog.Any("error", err))
+	}
+	w.WriteHeader(status)
+
+	vars := map[string]any{
+		"Error":  err.Error(),
+		"Status": status,
+		"Path":   r.URL.Path,
+	}
+	if tmplErr := s.tmpl(w, "error.gohtml", vars); tmplErr != nil && tmplErr != http.ErrHandlerTimeout {
+		slog.ErrorCtx(r.Context(), "failed to render error template", slog.Any("error", tmplErr))
+	}
 }
