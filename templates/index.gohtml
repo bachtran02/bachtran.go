@@ -1,0 +1,28 @@
+{{ template "head.gohtml" . }}
+<body>
+{{ template "header.gohtml" . }}
+<main>
+
+	<div id="home" class="nav">
+		{{ template "home.gohtml" .}}
+	</div>
+
+	<div id="projects" class="nav">
+		<h2>My Top Repos:</h2>
+		{{ template "projects.gohtml" .}}
+	</div>
+
+	<br/>
+	
+	<div id="scoreboard" class="nav">
+		<h2>How's my team doing:</h2>
+		{{ template "scoreboard.gohtml" .}}
+	</div>
+
+</main>
+<footer>
+	<p>© 2023 - <a href="https://github.com/bachtran02" target="_blank">@bachtran02</a></p>
+</footer>
+
+</body>
+</html>

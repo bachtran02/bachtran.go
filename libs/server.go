@@ -1,0 +1,51 @@
+package libs
+
+import (
+	"io"
+	"log"
+	"net/http"
+
+	"github.com/shurcooL/githubv4"
+)
+
+type ExecuteTemplateFunc func(wr io.Writer, name string, data any) error
+
+func NewServer(version string, cfg Config, httpClient *http.Client, githubClient *githubv4.Client, assets http.FileSystem, tmpl ExecuteTemplateFunc) *Server {
+	s := &Server{
+		version:      version,
+		cfg:          cfg,
+		httpClient:   httpClient,
+		githubClient: githubClient,
+		assets:       assets,
+		tmpl:         tmpl,
+	}
+
+	s.server = &http.Server{
+		Addr:    s.cfg.ListenAddr,
+		Handler: s.Routes(),
+	}
+
+	return s
+}
+
+type Server struct {
+	version      string
+	cfg          Config
+	httpClient   *http.Client
+	githubClient *githubv4.Client
+	server       *http.Server
+	assets       http.FileSystem
+	tmpl         ExecuteTemplateFunc
+}
+
+func (s *Server) Start() {
+	if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatalln("Error while listening:", err)
+	}
+}
+
+func (s *Server) Close() {
+	if err := s.server.Close(); err != nil {
+		log.Println("Error while closing server:", err)
+	}
+}

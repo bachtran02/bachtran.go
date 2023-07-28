@@ -1,0 +1,48 @@
+{{ if .Scoreboard }}
+	<div class="scoreboard">
+		<div class="match-header">
+			<div class="match-status">{{ .Scoreboard.Status.Description }}</div>
+			<div class="match-tournament"><img src="https://a.espncdn.com/combiner/i?img=/guid/119cfa41-71d4-39bf-a790-6273a52b0259/logos/default-dark.png" />{{ .Scoreboard.League.Name }}</div>
+			<div class="match-actions">
+				<a class="btn-icon" target="_blank" href={{ .Scoreboard.MatchUrl }}><i class="material-icons-outlined">arrow_outward</i></a>
+			</div>
+		</div>
+		<div class="match-content">
+			<div class="column">
+				<div class="team team--home">
+					<div class="team-logo">
+						<img src={{ .Scoreboard.HomeTeam.LogoUrl }} />
+					</div>
+					<h2 class="team-name">{{ .Scoreboard.HomeTeam.Name }}</h2>
+				</div>
+			</div>
+			<div class="column">
+				<div class="match-details">
+					<div class="match-date">
+						{{ .Scoreboard.Time.Date }} at <strong>{{ .Scoreboard.Time.Time }}</strong>
+					</div>
+					<div class="match-score">
+						<span class="match-score-number">{{ .Scoreboard.HomeTeam.Score }}</span>
+						<span class="match-score-divider">:</span>
+						<span class="match-score-number">{{ .Scoreboard.AwayTeam.Score }}</span>
+					</div>
+					<div class="match-time-lapsed">
+						{{ .Scoreboard.Status.Clock }}
+					</div>
+
+					<div class="match-venue">
+						<strong>{{ .Scoreboard.Venue }}</strong>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="team team--away">
+					<div class="team-logo">
+						<img src={{ .Scoreboard.AwayTeam.LogoUrl }} />
+					</div>
+					<h2 class="team-name">{{ .Scoreboard.AwayTeam.Name }}</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+{{ end }}

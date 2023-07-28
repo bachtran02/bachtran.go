@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --color-text-alert: #d72641;
+  --color-text-icon: #dbdade;
+  --color-theme-primary: #623ce6;
+  --color-time-lapsed: #DF9443;
+}
+
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  border-radius: 1rem;
+}
+
+#scoreboard button,
+#scoreboard input,
+#scoreboard select,
+#scoreboard textarea {
+  font: inherit; 
+}
+
+#scoreboard img {
+  display: block;
+}
+
+#scoreboard strong {
+  font-weight: 600;
+}
+
+.match-header {
+  display: flex;
+  flex: 1;
+  border-bottom: 2px solid rgb(147, 147, 147, 0.9);
+  padding: 1rem;
+}
+
+.match-status {
+  color: var(--text-primary);
+  /* color: var(--color-text-alert); */
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  margin-right: auto;
+}
+
+.match-tournament {
+  font-weight: 600;
+  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  margin-right: 60px;
+  justify-content: center;
+}
+.match-tournament img {
+  width: 20px;
+}
+
+.match-actions {
+  display: flex;
+  margin-left: auto;
+  justify-content: right;
+}
+
+.btn-icon {
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--color-text-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.match-content {
+  display: flex;
+  position: relative;
+}
+
+.column {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 3);
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-logo img {
+	width: 60px;
+}
+
+.team-name {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.match-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.match-date {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.match-date strong {
+  color: var(--text-primary);
+}
+
+.match-score {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.match-score-number {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+}
+.match-score-number--leading {
+  color: var(--color-theme-primary);
+}
+
+.match-score-divider {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-icon);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.match-time-lapsed {
+  color: var(--color-time-lapsed);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.match-venue {
+  color: var(--text-primary);
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+}

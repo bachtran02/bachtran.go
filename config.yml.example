@@ -1,0 +1,14 @@
+github:
+  access_token:
+  user:
+
+weather_api:
+  api_key:
+  city:
+
+scoreboard:
+  team:
+  timezone:
+
+listen_addr: 
+aboutme_path:

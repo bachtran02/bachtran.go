@@ -1,0 +1,173 @@
+:root {
+  --text-error: #d95e5e;
+}
+
+.dark {
+  --bg-primary: #1d2433;
+  --bg-secondary: #0d1828;
+  --nav-button-bg: #222e41;
+
+  --text-primary: #d3d8dd;
+  --text-secondary: #99a2b0;
+
+  --link-color: #97c7ff;
+  --link-color-hover: #619ae0;
+  --link-color-visited: #478bdc;
+
+  --github: url("/assets/icons/github.svg");
+  --email: url("/assets/icons/email.svg");
+  --discord: url("/assets/icons/discord.svg");
+
+  --star: url("/assets/icons/star.png");
+  --book: url("/assets/icons/book.png");
+  --fork: url("/assets/icons/fork.png");
+  
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  font-family: monospace;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-primary);
+}
+
+header img {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+header div {
+  display: flex;
+  gap: 1rem;
+}
+
+header a {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.icon {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 2.5rem;
+}
+
+.icon-btn {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--nav-button-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: filter 0.2s ease-in-out;
+}
+
+.icon-btn:hover {
+  filter: opacity(0.7);
+}
+
+.icon-btn:disabled {
+  cursor: not-allowed;
+  filter: opacity(0.2);
+}
+
+#weather{
+  background-color: var(--bg-primary);
+}
+
+#weather:hover{
+  filter: none;
+}
+
+#github {
+  background-image: var(--github);
+}
+
+#email {
+  background-image: var(--email);
+}
+
+#discord {
+  background-image: var(--discord);
+}
+
+#projects > h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#scoreboard > h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.nav {
+  display: flex;
+  grid-area: content;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.ch-chroma {
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+footer {
+  text-align: center;
+}
+
+footer a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.error {
+  color: var(--text-error);
+}
