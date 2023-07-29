@@ -6,18 +6,20 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"golang.org/x/exp/slog"
 )
 
 func (s *Server) Routes() http.Handler {
 	r := chi.NewRouter()
+	r.Use(middleware.CleanPath)
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.Heartbeat("/ping"))
 
 	r.Mount("/assets", http.FileServer(s.assets))
-	r.Group(func(r chi.Router) {
-		r.Route("/", func(r chi.Router) {
-			r.Get("/", s.index)
-			r.Head("/", s.index)
-		})
+	r.Route("/", func(r chi.Router) {
+		r.Get("/", s.index)
+		r.Head("/", s.index)
 	})
 	r.NotFound(s.redirectRoot)
 
@@ -30,8 +32,9 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 		s.error(w, r, fmt.Errorf("failed to fetch data: %w", err), http.StatusInternalServerError)
 		return
 	}
+
 	if err = s.ParseMarkdown(data); err != nil {
-		log.Println("failed to parse ABOUTME.md:", err)
+		s.error(w, r, fmt.Errorf("failed to parse ABOUTME.md: %w", err), http.StatusInternalServerError)
 		return
 	}
 
