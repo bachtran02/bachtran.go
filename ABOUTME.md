@@ -1,6 +1,6 @@
 # Welcome to my website!
 
-I'm Peter a Data Science student planning to double major/minor in Computer Science at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff/ tools to make life easier. In my free time, I look to contribute to open-source projects and connect with like-minded aspired programmers. Check out my website at [bachtran.dev](bachtran.dev)!
+I'm Peter a third-year Data Science student planning to double major in Computer Science at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff to make life easier. In my free time, I contribute to open-source projects and connect with like-minded aspired programmers. Check out my website at [bachtran.dev](bachtran.dev)!
 
 A proud owner of a Pi 4 which I'm looking to self-host more stuff on!
 
