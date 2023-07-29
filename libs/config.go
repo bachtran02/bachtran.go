@@ -3,6 +3,7 @@ package libs
 import (
 	"os"
 
+	"golang.org/x/exp/slog"
 	"gopkg.in/yaml.v3"
 )
 
@@ -25,6 +26,7 @@ type Config struct {
 	Scoreboard  ScoreboardConfig `yaml:"scoreboard"`
 	ListenAddr  string           `yaml:"listen_addr"`
 	AboutMePath string           `yaml:"aboutme_path"`
+	Log         LogConfig        `yaml:"log"`
 }
 
 type GitHubConfig struct {
@@ -40,4 +42,10 @@ type WeatherApiConfig struct {
 type ScoreboardConfig struct {
 	Team     string `yaml:"team"`
 	Timezone string `yaml:"timezone"`
+}
+
+type LogConfig struct {
+	Level     slog.Level `yaml:"level"`
+	Format    string     `yaml:"format"`
+	AddSource bool       `yaml:"add_source"`
 }

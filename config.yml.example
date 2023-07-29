@@ -12,3 +12,8 @@ scoreboard:
 
 listen_addr: 
 aboutme_path:
+
+log:
+  level: debug
+  format: text
+  add_source: true

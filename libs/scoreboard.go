@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
+
+	"golang.org/x/exp/slog"
 )
 
 type ScoreboardData struct {
@@ -175,13 +176,13 @@ func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
 	defer rs.Body.Close()
 
 	if rs.StatusCode != http.StatusOK {
-		log.Printf("non-OK HTTP status: %d\nReason: %s", rs.StatusCode, http.StatusText(rs.StatusCode))
+		// log.Printf("non-OK HTTP status: %d\nReason: %s", rs.StatusCode, http.StatusText(rs.StatusCode))
 		return nil, fmt.Errorf("non-OK HTTP status: %d\tReason: %s", rs.StatusCode, http.StatusText(rs.StatusCode))
 	}
 
 	var resp EspnApiResponse
 	if err = json.NewDecoder(rs.Body).Decode(&resp); err != nil {
-		log.Println("failed to decode JSON:", err)
+		// log.Println("failed to decode JSON:", err)
 		return nil, err
 	}
 
@@ -190,12 +191,12 @@ func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
 
 	userTime, timeErr := time.Parse(time.RFC3339, event.Date)
 	if timeErr != nil {
-		log.Println("failed to parse time: ", timeErr)
-		return nil, err
+		// log.Println("failed to parse time: ", timeErr)
+		return nil, timeErr
 	}
 	tz, err := time.LoadLocation(s.cfg.Scoreboard.Timezone)
 	if err != nil {
-		fmt.Println("error loading config timezone:", err)
+		slog.Error("error loading config timezone:", err)
 	} else {
 		userTime = userTime.In(tz)
 	}
@@ -217,7 +218,7 @@ func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
 		},
 		Venue: event.Location,
 		Time: MatchTime{
-			Date: fmt.Sprintf("%d %s", userTime.Day(), userTime.Month().String()),
+			Date: fmt.Sprintf("%s %d", userTime.Month().String(), userTime.Day()),
 			Time: fmt.Sprintf("%02d:%02d", userTime.Hour(), userTime.Minute()),
 		},
 		Status: Status{

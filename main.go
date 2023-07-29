@@ -35,6 +35,7 @@ func main() {
 		slog.Error("failed to load config", slog.Any("error", err))
 		os.Exit(-1)
 	}
+	setupLogger(cfg.Log)
 
 	slog.Info("Starting bachtran.dev...")
 
@@ -66,4 +67,18 @@ func main() {
 	si := make(chan os.Signal, 1)
 	signal.Notify(si, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-si
+}
+
+func setupLogger(cfg libs.LogConfig) {
+	opts := &slog.HandlerOptions{
+		AddSource: cfg.AddSource,
+		Level:     cfg.Level,
+	}
+	var handler slog.Handler
+	if cfg.Format == "json" {
+		handler = slog.NewJSONHandler(os.Stdout, opts)
+	} else {
+		handler = slog.NewTextHandler(os.Stdout, opts)
+	}
+	slog.SetDefault(slog.New(handler))
 }

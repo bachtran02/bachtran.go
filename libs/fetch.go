@@ -2,7 +2,8 @@ package libs
 
 import (
 	"context"
-	"log"
+
+	"golang.org/x/exp/slog"
 )
 
 func (s *Server) FetchData(ctx context.Context) (*Data, error) {
@@ -15,10 +16,10 @@ func (s *Server) FetchData(ctx context.Context) (*Data, error) {
 		return nil, github_err
 	}
 	if weather_err != nil {
-		log.Println("failed to fetch Weather API:", weather_err)
+		slog.Error("failed to fetch Weather API:", weather_err)
 	}
 	if scoreboard_err != nil {
-		log.Println("failed to fetch ESPN API:", scoreboard_err)
+		slog.Error("failed to fetch ESPN API:", scoreboard_err)
 	}
 
 	return &Data{
