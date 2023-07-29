@@ -7,4 +7,4 @@ services:
       dockerfile: Dockerfile
     container_name: app
     ports:
-      - 8080:8080
+      - 80:80

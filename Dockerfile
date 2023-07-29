@@ -10,6 +10,6 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /go-webapp
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["/go-webapp"]
