@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: go_webapp
     container_name: app
     ports:
       - 80:80

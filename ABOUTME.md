@@ -1,4 +1,4 @@
-# Welcome to my website!
+# Welcome!
 
 I'm Peter a third-year Data Science student planning to double major in Computer Science at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff to make life easier. In my free time, I contribute to open-source projects and connect with like-minded aspired programmers. Check out my website at [bachtran.dev](bachtran.dev)!
 
