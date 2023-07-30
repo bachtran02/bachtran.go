@@ -4,7 +4,11 @@
 {{ else }}
 	<div class="scoreboard">
 		<div class="match-header">
-			<div class="match-status">{{ .Data.Status.Description }}</div>
+			{{ if .Data.Status.IsLive }}
+				<div class="match-status match-status--live">&#128308 Live</div>
+			{{ else }}
+				<div class="match-status">{{ .Data.Status.Description }}</div>
+			{{ end }}
 			<div class="match-tournament">{{ .Data.League.Name }}</div>
 			<div class="match-actions">
 			    <button class="btn-icon" id="update-button" title="Refresh" onclick="updateScoreboard()"><i class="material-icons-outlined">sync</i></button>
@@ -28,9 +32,17 @@
 						{{ .Data.Time.Date }} at <strong>{{ .Data.Time.Time }}</strong>
 					</div>
 					<div class="match-score">
-						<span class="match-score-number">{{ .Data.HomeTeam.Score }}</span>
+						{{ if .Data.HomeTeam.IsLeading }}
+							<span class="match-score-number match-score-number--leading">{{ .Data.HomeTeam.Score }}</span>
+						{{ else }}
+							<span class="match-score-number">{{ .Data.HomeTeam.Score }}</span>
+						{{ end }}
 						<span class="match-score-divider">:</span>
-						<span class="match-score-number">{{ .Data.AwayTeam.Score }}</span>
+						{{ if .Data.AwayTeam.IsLeading }}
+							<span class="match-score-number match-score-number--leading">{{ .Data.AwayTeam.Score }}</span>
+						{{ else }}
+							<span class="match-score-number">{{ .Data.AwayTeam.Score }}</span>
+						{{ end }}
 					</div>
 					<div class="match-time-lapsed">
 						{{ .Data.Status.Clock }}

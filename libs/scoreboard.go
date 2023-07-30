@@ -27,15 +27,17 @@ type ScoreboardData struct {
 }
 
 type Team struct {
-	Name    string
-	Url     string
-	LogoUrl string
-	Score   string
+	Name      string
+	Url       string
+	LogoUrl   string
+	Score     string
+	IsLeading bool
 }
 
 type Status struct {
 	Clock       string
 	Description string
+	IsLive      bool
 }
 
 type MatchTime struct {
@@ -205,24 +207,21 @@ func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 		userTime = userTime.In(tz)
 	}
 
-	clock := ""
-	if event.FullStatus.Type.State == "in" {
-		clock = event.FullStatus.DisplayClock
-	}
-
 	return Scoreboard{
 		Data: &ScoreboardData{
 			AwayTeam: Team{
-				Name:    event.Competitors[0].DisplayName,
-				Url:     fmt.Sprintf("https://www.espn.com/soccer/team/_/id/%s", event.Competitors[0].ID),
-				LogoUrl: event.Competitors[0].LogoDark,
-				Score:   event.Competitors[0].Score,
+				Name:      event.Competitors[0].DisplayName,
+				Url:       fmt.Sprintf("https://www.espn.com/soccer/team/_/id/%s", event.Competitors[0].ID),
+				LogoUrl:   event.Competitors[0].LogoDark,
+				Score:     event.Competitors[0].Score,
+				IsLeading: event.Competitors[0].Score > event.Competitors[1].Score,
 			},
 			HomeTeam: Team{
-				Name:    event.Competitors[1].DisplayName,
-				Url:     fmt.Sprintf("https://www.espn.com/soccer/team/_/id/%s", event.Competitors[1].ID),
-				LogoUrl: event.Competitors[1].LogoDark,
-				Score:   event.Competitors[1].Score,
+				Name:      event.Competitors[1].DisplayName,
+				Url:       fmt.Sprintf("https://www.espn.com/soccer/team/_/id/%s", event.Competitors[1].ID),
+				LogoUrl:   event.Competitors[1].LogoDark,
+				Score:     event.Competitors[1].Score,
+				IsLeading: event.Competitors[1].Score > event.Competitors[0].Score,
 			},
 			Venue: event.Location,
 			Time: MatchTime{
@@ -230,12 +229,20 @@ func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 				Time: fmt.Sprintf("%02d:%02d", userTime.Hour(), userTime.Minute()),
 			},
 			Status: Status{
-				Clock:       clock,
+				Clock:       getClock(event.FullStatus.Type.State, event.FullStatus.DisplayClock),
 				Description: event.FullStatus.Type.Description,
+				IsLive:      event.FullStatus.Type.State == "in",
 			},
 			League:   league,
 			MatchUrl: event.Link,
 		},
 		URL: url,
 	}
+}
+
+func getClock(state string, clock string) string {
+	if state == "in" {
+		return clock
+	}
+	return ""
 }

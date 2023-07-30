@@ -4,6 +4,7 @@
   --color-text-alert: #d72641;
   --color-text-icon: #dbdade;
   --color-theme-primary: #623ce6;
+  --color-theme-secondary: #182135;
   --color-time-lapsed: #DF9443;
 }
 
@@ -31,7 +32,6 @@
 
 .match-status {
   color: var(--text-primary);
-  /* color: var(--color-text-alert); */
   padding: 8px 12px;
   font-weight: 600;
   font-size: 14px;
@@ -40,6 +40,9 @@
   line-height: 1;
   margin-right: auto;
   width: 25%;
+}
+.match-status--live {
+  color: var(--color-text-alert);
 }
 
 .match-tournament {
@@ -94,8 +97,18 @@
   align-items: center;
 }
 
+.team-logo {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  box-shadow: 0 4px 4px 0 #14233a, 0 0 0 15px #253554;
+}
 .team-logo img {
-	width: 60px;
+  width: 55px;
 }
 
 .team-name {
@@ -130,7 +143,7 @@
   align-items: center;
 }
 
-.match-score-number {
+.match-score-number{
   font-size: 48px;
   font-weight: 600;
   line-height: 1;
