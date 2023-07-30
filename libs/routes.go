@@ -17,9 +17,16 @@ func (s *Server) Routes() http.Handler {
 	r.Use(middleware.Heartbeat("/ping"))
 
 	r.Mount("/assets", http.FileServer(s.assets))
-	r.Route("/", func(r chi.Router) {
-		r.Get("/", s.index)
-		r.Head("/", s.index)
+	r.Group(func(r chi.Router) {
+		r.Route("/api", func(r chi.Router) {
+			r.Route("/scoreboard", func(r chi.Router) {
+				r.Get("/", s.scoreboard)
+			})
+		})
+		r.Route("/", func(r chi.Router) {
+			r.Get("/", s.index)
+			r.Head("/", s.index)
+		})
 	})
 	r.NotFound(s.redirectRoot)
 
@@ -40,6 +47,17 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 
 	if err = s.tmpl(w, "index.gohtml", data); err != nil {
 		log.Println("failed to execute template:", err)
+	}
+}
+
+func (s *Server) scoreboard(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	vars := s.FetchScoreboard(ctx)
+
+	if err := s.tmpl(w, "scoreboard.gohtml", vars); err != nil {
+		slog.ErrorCtx(ctx, "failed to render scoreboard template", slog.Any("error", err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 }
 

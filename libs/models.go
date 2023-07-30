@@ -6,10 +6,9 @@ import (
 )
 
 type Data struct {
-	Github     *GitHubData
-	Weather    *WeatherData
-	Scoreboard *ScoreboardData
-	Home       Home
+	Github  *GitHubData
+	Weather *WeatherData
+	Home    Home
 }
 
 type Home struct {

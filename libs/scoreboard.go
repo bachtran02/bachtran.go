@@ -10,6 +10,12 @@ import (
 	"golang.org/x/exp/slog"
 )
 
+type Scoreboard struct {
+	Data  *ScoreboardData
+	Error string
+	URL   string
+}
+
 type ScoreboardData struct {
 	HomeTeam Team
 	AwayTeam Team
@@ -22,6 +28,7 @@ type ScoreboardData struct {
 
 type Team struct {
 	Name    string
+	Url     string
 	LogoUrl string
 	Score   string
 }
@@ -163,27 +170,25 @@ type AppLink struct {
 	ShortText string   `json:"shortText"`
 }
 
-func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
+func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 	url := fmt.Sprintf("https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=soccer&team=%s", s.cfg.Scoreboard.Team)
 	rq, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return nil, err
+		return Scoreboard{Error: fmt.Sprintf("failed to create request: %s", err)}
 	}
 	rs, err := s.httpClient.Do(rq)
 	if err != nil {
-		return nil, err
+		return Scoreboard{Error: fmt.Sprintf("failed to do request: %s", err)}
 	}
 	defer rs.Body.Close()
 
 	if rs.StatusCode != http.StatusOK {
-		// log.Printf("non-OK HTTP status: %d\nReason: %s", rs.StatusCode, http.StatusText(rs.StatusCode))
-		return nil, fmt.Errorf("non-OK HTTP status: %d\tReason: %s", rs.StatusCode, http.StatusText(rs.StatusCode))
+		return Scoreboard{Error: fmt.Sprintf("non-OK HTTP status: %d\tReason: %s", rs.StatusCode, http.StatusText(rs.StatusCode))}
 	}
 
 	var resp EspnApiResponse
 	if err = json.NewDecoder(rs.Body).Decode(&resp); err != nil {
-		// log.Println("failed to decode JSON:", err)
-		return nil, err
+		return Scoreboard{Error: fmt.Sprintf("failed to decode response: %s", err)}
 	}
 
 	var league League = resp.Sports[0].Leagues[0]
@@ -191,8 +196,7 @@ func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
 
 	userTime, timeErr := time.Parse(time.RFC3339, event.Date)
 	if timeErr != nil {
-		// log.Println("failed to parse time: ", timeErr)
-		return nil, timeErr
+		return Scoreboard{Error: fmt.Sprintf("failed to parse time: %s", err)}
 	}
 	tz, err := time.LoadLocation(s.cfg.Scoreboard.Timezone)
 	if err != nil {
@@ -200,32 +204,38 @@ func (s *Server) FetchScoreboard(ctx context.Context) (*ScoreboardData, error) {
 	} else {
 		userTime = userTime.In(tz)
 	}
+
 	clock := ""
-	if event.FullStatus.Type.ID == "2" {
+	if event.FullStatus.Type.State == "in" {
 		clock = event.FullStatus.DisplayClock
 	}
 
-	return &ScoreboardData{
-		AwayTeam: Team{
-			Name:    event.Competitors[0].DisplayName,
-			LogoUrl: event.Competitors[0].LogoDark,
-			Score:   event.Competitors[0].Score,
+	return Scoreboard{
+		Data: &ScoreboardData{
+			AwayTeam: Team{
+				Name:    event.Competitors[0].DisplayName,
+				Url:     fmt.Sprintf("https://www.espn.com/soccer/team/_/id/%s", event.Competitors[0].ID),
+				LogoUrl: event.Competitors[0].LogoDark,
+				Score:   event.Competitors[0].Score,
+			},
+			HomeTeam: Team{
+				Name:    event.Competitors[1].DisplayName,
+				Url:     fmt.Sprintf("https://www.espn.com/soccer/team/_/id/%s", event.Competitors[1].ID),
+				LogoUrl: event.Competitors[1].LogoDark,
+				Score:   event.Competitors[1].Score,
+			},
+			Venue: event.Location,
+			Time: MatchTime{
+				Date: fmt.Sprintf("%s %d", userTime.Month().String(), userTime.Day()),
+				Time: fmt.Sprintf("%02d:%02d", userTime.Hour(), userTime.Minute()),
+			},
+			Status: Status{
+				Clock:       clock,
+				Description: event.FullStatus.Type.Description,
+			},
+			League:   league,
+			MatchUrl: event.Link,
 		},
-		HomeTeam: Team{
-			Name:    event.Competitors[1].DisplayName,
-			LogoUrl: event.Competitors[1].LogoDark,
-			Score:   event.Competitors[1].Score,
-		},
-		Venue: event.Location,
-		Time: MatchTime{
-			Date: fmt.Sprintf("%s %d", userTime.Month().String(), userTime.Day()),
-			Time: fmt.Sprintf("%02d:%02d", userTime.Hour(), userTime.Minute()),
-		},
-		Status: Status{
-			Clock:       clock,
-			Description: event.FullStatus.Type.Description,
-		},
-		League:   league,
-		MatchUrl: event.Link,
-	}, nil
+		URL: url,
+	}
 }
