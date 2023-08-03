@@ -13,6 +13,7 @@ type WeatherData struct {
 	City         string
 	Country      string
 	WeatherIcon  string
+	WeatherText  string
 	TemperatureF float64
 }
 
@@ -84,6 +85,7 @@ func (s *Server) FetchWeather(ctx context.Context) (*WeatherData, error) {
 		City:         resp.LocationData.Name,
 		Country:      resp.LocationData.Country,
 		WeatherIcon:  fmt.Sprintf("https:%s", resp.CurrentData.Condition.Icon),
+		WeatherText:  resp.CurrentData.Condition.Text,
 		TemperatureF: resp.CurrentData.TemperatureF,
 	}, nil
 }
