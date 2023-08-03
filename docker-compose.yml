@@ -9,3 +9,4 @@ services:
     container_name: app
     ports:
       - 80:80
+    restart: unless-stopped
