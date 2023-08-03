@@ -230,7 +230,7 @@ func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 			},
 			Status: Status{
 				Clock:       getClock(event.FullStatus.Type.State, event.FullStatus.DisplayClock),
-				Description: event.FullStatus.Type.Description,
+				Description: getDescription(event.FullStatus.Type.State, event.FullStatus.Type.Description),
 				IsLive:      event.FullStatus.Type.State == "in",
 			},
 			League:   league,
@@ -245,4 +245,14 @@ func getClock(state string, clock string) string {
 		return clock
 	}
 	return ""
+}
+
+func getDescription(state string, description string) string {
+	if state == "in" {
+		return description
+	} else if state == "pre" {
+		return "Scheduled"
+	} else {
+		return "Finished"
+	}
 }
