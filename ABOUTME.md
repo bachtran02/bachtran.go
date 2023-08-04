@@ -1,13 +1,16 @@
 # Welcome!
 
-I'm Peter a third-year Data Science student planning to double major in Computer Science at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff to make life easier. In my free time, I contribute to open-source projects and connect with like-minded aspired programmers. Check out my website at [bachtran.dev](bachtran.dev)!
+I'm Peter a third-year Data Science/Computer Science student at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff and to make life easier. In my free time, I contribute to open-source projects and connect with like-minded aspired programmers. Recently, I discovered home labbing and are looking to self-host more stuff on my Pi 4! 
 
-A proud owner of a Pi 4 which I'm looking to self-host more stuff on!
+Check out my website at [bachtran.dev](https://bachtran.dev)!
+
+<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83796054/258480135-b9f51d7b-b92d-43f8-b4e6-74de7e4e61da.gif" width="250px" height="250px" align="right" alt="Bongo Cat">
 
 ## Trying to learn:
 <p>
  <img alt="Golang" src="https://img.shields.io/badge/-Golang-informational?style=for-the-badge&logo=go&logoColor=white&color=00ADD8" />
  <img alt="Kotlin" src="https://img.shields.io/badge/-Kotlin-informational?style=for-the-badge&logo=kotlin&logoColor=white&color=7F52FF" />
+ <img alt="wireguard" src="https://img.shields.io/badge/-Wireguard-informational?style=for-the-badge&logo=wireguard&logoColor=white&color=88171A" />
 </p>
 
 ## Trying to use:
