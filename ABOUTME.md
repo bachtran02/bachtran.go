@@ -1,10 +1,10 @@
 # Welcome!
 
-I'm Peter a third-year Data Science/Computer Science student at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff and to make life easier. In my free time, I contribute to open-source projects and connect with like-minded aspired programmers. Recently, I discovered home labbing and are looking to self-host more stuff on my Pi 4! 
+I'm Peter a Data Science/Computer Science student at [UC Berkeley](https://data.berkeley.edu/). I enjoy coding to build cool stuff and to make life easier. In my free time, I contribute to open-source projects and connect with like-minded aspired programmers. Check out my website at [bachtran.dev](https://bachtran.dev)!
 
-Check out my website at [bachtran.dev](https://bachtran.dev)!
+Recently, I discovered home labbing and are looking to self-host more stuff on my Pi 4! 
 
-<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83796054/258480135-b9f51d7b-b92d-43f8-b4e6-74de7e4e61da.gif" width="250px" height="250px" align="right" alt="Bongo Cat">
+<img src="/assets/bongo_cat.gif" width="200px" height="200px" align="right" alt="Bongo Cat">
 
 ## Trying to learn:
 <p>
