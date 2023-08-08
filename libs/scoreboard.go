@@ -178,6 +178,8 @@ func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 	if err != nil {
 		return Scoreboard{Error: fmt.Sprintf("failed to create request: %s", err)}
 	}
+	rq.Header.Set("Cache-Control", "no-cache, no-store, must-revalidate;")
+
 	rs, err := s.httpClient.Do(rq)
 	if err != nil {
 		return Scoreboard{Error: fmt.Sprintf("failed to do request: %s", err)}

@@ -1,13 +1,3 @@
-async function updateScoreboard() {
-    // const button = document.querySelector("#update-button")
-    await loadScoreboard()
-    // button.disabled = true;
-    // setTimeout(function() {
-    //     button.disabled = false
-    // }, 1000 * 10);
-    // console.log("hello");
-}
-
 async function loadScoreboard() {
     let response;
     try {
@@ -35,5 +25,5 @@ function scoreboardError() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadScoreboard();
-    // setInterval(loadScoreboard, 1000 * 60);
+    setInterval(loadScoreboard, 1000 * 60);
 }, false);
