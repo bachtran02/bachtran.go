@@ -10,6 +10,7 @@ import (
 
 type GitHubData struct {
 	User     User
+	HomeRaw  string
 	Projects []Project
 }
 
@@ -18,7 +19,15 @@ type User struct {
 	AvatarURL template.URL
 }
 
-type PinnedItems struct {
+type UserRepo struct {
+	Object struct {
+		Blob struct {
+			Text string
+		} `graphql:"... on Blob"`
+	} `graphql:"object(expression: $expression)"`
+}
+
+type Repositories struct {
 	Nodes []struct {
 		Nodes struct {
 			Name             string
@@ -51,11 +60,13 @@ func (s *Server) FetchGithub(ctx context.Context) (*GitHubData, error) {
 		User struct {
 			Login       string
 			AvatarURL   string
-			PinnedItems PinnedItems `graphql:"pinnedItems(first: 3, types: REPOSITORY)"`
+			UserRepo    UserRepo     `graphql:"repository(name: $user)"`
+			PinnedItems Repositories `graphql:"pinnedItems(first: 3, types: REPOSITORY)"`
 		} `graphql:"user(login: $user)"`
 	}
 	variables := map[string]interface{}{
-		"user": githubv4.String(s.cfg.GitHub.User),
+		"user":       githubv4.String(s.cfg.GitHub.User),
+		"expression": githubv4.String("main:README.md"),
 	}
 	if err := s.githubClient.Query(ctx, &query, variables); err != nil {
 		return nil, err
@@ -66,11 +77,12 @@ func (s *Server) FetchGithub(ctx context.Context) (*GitHubData, error) {
 			Name:      query.User.Login,
 			AvatarURL: template.URL(query.User.AvatarURL),
 		},
-		Projects: parsePinnedItems(query.User.PinnedItems),
+		HomeRaw:  query.User.UserRepo.Object.Blob.Text,
+		Projects: parseRepositories(query.User.PinnedItems),
 	}, nil
 }
 
-func parsePinnedItems(pinnedItems PinnedItems) []Project {
+func parseRepositories(pinnedItems Repositories) []Project {
 	projects := make([]Project, 0, len(pinnedItems.Nodes))
 	for _, onode := range pinnedItems.Nodes {
 		var language *Language
