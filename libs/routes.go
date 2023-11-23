@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -13,6 +14,22 @@ import (
 func (s *Server) Routes() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.CleanPath)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Maybe(
+		middleware.RequestLogger(&middleware.DefaultLogFormatter{
+			Logger:  log.Default(),
+			NoColor: true,
+		}),
+		func(r *http.Request) bool {
+			prefixes := []string{"/assets", "/api"}
+			for _, prefix := range prefixes {
+				if strings.HasPrefix(r.URL.Path, prefix) {
+					return false
+				}
+			}
+			return true
+		},
+	))
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/ping"))
 
