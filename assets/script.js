@@ -16,7 +16,7 @@ async function loadScoreboard() {
         return;
     }
     document.querySelector("#scoreboard").innerHTML = await response.text();
-    console.log("scoreboard successfully updated")
+    // console.log("scoreboard successfully updated")
 }
 
 function scoreboardError() {
@@ -25,5 +25,5 @@ function scoreboardError() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadScoreboard();
-    setInterval(loadScoreboard, 1000 * 60);
+    setInterval(loadScoreboard, 1000 * 10);
 }, false);
