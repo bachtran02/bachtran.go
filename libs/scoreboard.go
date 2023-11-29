@@ -45,131 +45,43 @@ type MatchTime struct {
 	Time string
 }
 
-// sponsored by ChatGPT
 type EspnApiResponse struct {
 	Sports []Sport `json:"sports"`
 }
 
 type Sport struct {
-	ID      string   `json:"id"`
-	UID     string   `json:"uid"`
-	GUID    string   `json:"guid"`
-	Name    string   `json:"name"`
-	Slug    string   `json:"slug"`
-	Logos   []Logo   `json:"logos"`
 	Leagues []League `json:"leagues"`
 }
 
-type Logo struct {
-	Href   string   `json:"href"`
-	Alt    string   `json:"alt"`
-	Rel    []string `json:"rel"`
-	Width  int      `json:"width"`
-	Height int      `json:"height"`
-}
-
 type League struct {
-	ID           string   `json:"id"`
-	UID          string   `json:"uid"`
-	Name         string   `json:"name"`
-	Abbreviation string   `json:"abbreviation"`
-	ShortName    string   `json:"shortName"`
-	Slug         string   `json:"slug"`
-	Tag          string   `json:"tag"`
-	IsTournament bool     `json:"isTournament"`
-	SmartDates   []string `json:"smartdates"`
-	Events       []Event  `json:"events"`
+	Name   string  `json:"name"`
+	Events []Event `json:"events"`
 }
 
 type Event struct {
-	ID                  string       `json:"id"`
-	UID                 string       `json:"uid"`
-	Date                string       `json:"date"`
-	TimeValid           bool         `json:"timeValid"`
-	Recent              bool         `json:"recent"`
-	Name                string       `json:"name"`
-	ShortName           string       `json:"shortName"`
-	Links               []Link       `json:"links"`
-	GamecastAvailable   bool         `json:"gamecastAvailable"`
-	PlayByPlayAvailable bool         `json:"playByPlayAvailable"`
-	CommentaryAvailable bool         `json:"commentaryAvailable"`
-	OnWatch             bool         `json:"onWatch"`
-	CompetitionID       string       `json:"competitionId"`
-	Location            string       `json:"location"`
-	Season              int          `json:"season"`
-	SeasonStartDate     string       `json:"seasonStartDate"`
-	SeasonEndDate       string       `json:"seasonEndDate"`
-	SeasonType          string       `json:"seasonType"`
-	SeasonTypeHasGroups bool         `json:"seasonTypeHasGroups"`
-	Group               Group        `json:"group"`
-	Link                string       `json:"link"`
-	Status              string       `json:"status"`
-	Summary             string       `json:"summary"`
-	Period              int          `json:"period"`
-	Clock               string       `json:"clock"`
-	AddedClock          float32      `json:"addedClock"`
-	FullStatus          FullStatus   `json:"fullStatus"`
-	Competitors         []Competitor `json:"competitors"`
-	AppLinks            []AppLink    `json:"appLinks"`
-}
-
-type Link struct {
-	Rel  []string `json:"rel"`
-	Href string   `json:"href"`
-	Text string   `json:"text"`
-}
-
-type Group struct {
-	GroupID      string `json:"groupId"`
-	Name         string `json:"name"`
-	Abbreviation string `json:"abbreviation"`
-	ShortName    string `json:"shortName"`
+	Date        string       `json:"date"`
+	Location    string       `json:"location"`
+	Link        string       `json:"link"`
+	FullStatus  FullStatus   `json:"fullStatus"`
+	Competitors []Competitor `json:"competitors"`
 }
 
 type FullStatus struct {
-	Clock        float32 `json:"clock"`
-	AddedClock   float32 `json:"addedClock"`
-	DisplayClock string  `json:"displayClock"`
-	Period       int     `json:"period"`
-	Type         Type    `json:"type"`
+	DisplayClock string `json:"displayClock"`
+	Type         Type   `json:"type"`
 }
 
 type Type struct {
 	ID          string `json:"id"`
-	Name        string `json:"name"`
 	State       string `json:"state"`
-	Completed   bool   `json:"completed"`
 	Description string `json:"description"`
-	Detail      string `json:"detail"`
-	ShortDetail string `json:"shortDetail"`
 }
 
 type Competitor struct {
-	ID             string `json:"id"`
-	UID            string `json:"uid"`
-	Type           string `json:"type"`
-	Order          int    `json:"order"`
-	HomeAway       string `json:"homeAway"`
-	Winner         bool   `json:"winner"`
-	Form           string `json:"form"`
-	DisplayName    string `json:"displayName"`
-	Name           string `json:"name"`
-	Abbreviation   string `json:"abbreviation"`
-	Location       string `json:"location"`
-	Color          string `json:"color"`
-	AlternateColor string `json:"alternateColor"`
-	Score          string `json:"score"`
-	IsNational     bool   `json:"isNational"`
-	Record         string `json:"record"`
-	Logo           string `json:"logo"`
-	LogoDark       string `json:"logoDark"`
-}
-
-type AppLink struct {
-	Rel       []string `json:"rel"`
-	Href      string   `json:"href"`
-	Text      string   `json:"text"`
-	ShortText string   `json:"shortText"`
+	ID          string `json:"id"`
+	DisplayName string `json:"displayName"`
+	Score       string `json:"score"`
+	LogoDark    string `json:"logoDark"`
 }
 
 func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
