@@ -143,7 +143,7 @@ func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 				Time: fmt.Sprintf("%02d:%02d", userTime.Hour(), userTime.Minute()),
 			},
 			Status: Status{
-				Clock:       getClock(event.FullStatus.Type.State, event.FullStatus.DisplayClock),
+				Clock:       getClock(event.FullStatus.Type.ID, event.FullStatus.Type.State, event.FullStatus.DisplayClock, event.FullStatus.Type.Description),
 				Description: getDescription(event.FullStatus.Type.State, event.FullStatus.Type.Description),
 				IsLive:      event.FullStatus.Type.State == "in",
 			},
@@ -154,8 +154,11 @@ func (s *Server) FetchScoreboard(ctx context.Context) Scoreboard {
 	}
 }
 
-func getClock(state string, clock string) string {
+func getClock(state_id string, state string, clock string, description string) string {
 	if state == "in" {
+		if state_id == "23" {
+			return description
+		}
 		return clock
 	}
 	return ""
@@ -166,7 +169,8 @@ func getDescription(state string, description string) string {
 		return description
 	} else if state == "pre" {
 		return "Scheduled"
-	} else {
+	} else if state == "post" {
 		return "Finished"
 	}
+	return "unknown_status"
 }
