@@ -105,7 +105,7 @@
   justify-content: center;
   border-radius: 50%;
   background-color: var(--bg-primary);
-  box-shadow: 0 4px 4px 0 rgb(23, 60, 56), 0 0 0 15px #005049ff;
+  box-shadow: 0 4px 4px 0 #151c2c, 0 0 0 15px #192133;
 }
 .team-logo img {
   width: 55px;
