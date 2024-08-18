@@ -10,14 +10,13 @@ import (
 
 type ExecuteTemplateFunc func(wr io.Writer, name string, data any) error
 
-func NewServer(version string, cfg Config, httpClient *http.Client, githubClient *githubv4.Client, assets http.FileSystem, tmpl ExecuteTemplateFunc) *Server {
+func NewServer(version string, cfg Config, httpClient *http.Client, githubClient *githubv4.Client, assets http.FileSystem) *Server {
 	s := &Server{
 		version:      version,
 		cfg:          cfg,
 		httpClient:   httpClient,
 		githubClient: githubClient,
 		assets:       assets,
-		tmpl:         tmpl,
 	}
 
 	s.server = &http.Server{
@@ -35,7 +34,6 @@ type Server struct {
 	githubClient *githubv4.Client
 	server       *http.Server
 	assets       http.FileSystem
-	tmpl         ExecuteTemplateFunc
 }
 
 func (s *Server) Start() {

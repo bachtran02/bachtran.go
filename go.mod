@@ -1,4 +1,4 @@
-module portfolio
+module github.com/bachtran02/bachtran.go
 
 go 1.21
 

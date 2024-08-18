@@ -1,0 +1,29 @@
+package tmpl 
+
+import "github.com/bachtran02/bachtran.go/models"
+
+templ Index(data models.Data) {
+    <!DOCTYPE html>
+    <html lang="en">
+        @Head()
+        @Header(data)
+
+        <main>
+            <div id="home" class="nav">
+                <div>
+		            @templ.Raw( data.Home.Content )
+                </div>
+	        </div>
+            <div id="projects" class="nav">
+                <h2>Top Projects:</h2>
+                @Projects(data)
+	        </div>
+            <br/>
+	        <div id="scoreboard" class="nav"></div>
+        </main>
+        <footer>
+	        <p>© 2024 - <a href="https://github.com/bachtran02" target="_blank">{`@`}bachtran.dev</a></p>
+        </footer>
+        <script src="/assets/script.js" defer></script>
+    </html>
+}

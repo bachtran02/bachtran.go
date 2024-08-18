@@ -7,7 +7,8 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"portfolio/models"
+
+	"github.com/bachtran02/bachtran.go/models"
 )
 
 func (s *Server) FetchWeather(ctx context.Context) (*models.WeatherData, error) {

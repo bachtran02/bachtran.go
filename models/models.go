@@ -14,3 +14,9 @@ type Home struct {
 	Body    string
 	Content template.HTML
 }
+
+type Error struct {
+	Error  string
+	Status int
+	Path   string
+}

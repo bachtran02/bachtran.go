@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"portfolio/models"
+
+	"github.com/bachtran02/bachtran.go/models"
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/renderer/html"

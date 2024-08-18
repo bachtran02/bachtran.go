@@ -16,7 +16,7 @@ async function loadScoreboard() {
         return;
     }
     document.querySelector("#scoreboard").innerHTML = await response.text();
-    // console.log("scoreboard successfully updated")
+    console.log("scoreboard successfully updated")
 }
 
 function scoreboardError() {

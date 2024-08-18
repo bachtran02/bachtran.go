@@ -2,7 +2,8 @@ package libs
 
 import (
 	"context"
-	"portfolio/models"
+
+	"github.com/bachtran02/bachtran.go/models"
 
 	"golang.org/x/exp/slog"
 )

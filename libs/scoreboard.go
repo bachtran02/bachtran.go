@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"portfolio/models"
 	"time"
+
+	"github.com/bachtran02/bachtran.go/models"
 
 	"golang.org/x/exp/slog"
 )

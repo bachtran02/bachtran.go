@@ -1,18 +1,23 @@
 package tmpl
 
-templ Error() {
+import "github.com/bachtran02/bachtran.go/models"
+import "fmt"
+
+templ Error(err models.Error) {
     <main>
         <div class="error">
             <h1>Oops!</h1>
             <h2>Something went wrong:</h2>
             <div class="error-details">
-                hehe
+                <p>Message: { err.Error }</p>
+                <p>Status: { fmt.Sprintf("%d", err.Status) }</p>
+                <p>Path: { err.Path }</p>
             </div>
             <h3>
                 Try again later.
                 <br/>
                 Or create an issue on <a href="https://github.com/bachtran02/bachtran.go/issues/new">GitHub</a>
             </h3>
-        </div>
+	    </div>
     </main>
 }

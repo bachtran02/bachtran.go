@@ -7,7 +7,7 @@ import (
 	"github.com/a-h/templ"
 	"github.com/shurcooL/githubv4"
 
-	"portfolio/models"
+	"github.com/bachtran02/bachtran.go/models"
 )
 
 func (s *Server) FetchGithub(ctx context.Context) (*models.GitHubData, error) {

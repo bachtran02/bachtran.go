@@ -5,13 +5,13 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"html/template"
 	"net/http"
 	"os"
 	"os/signal"
-	"portfolio/libs"
 	"syscall"
 	"time"
+
+	"github.com/bachtran02/bachtran.go/libs"
 
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/exp/slog"
@@ -19,9 +19,6 @@ import (
 )
 
 var (
-	//go:embed templates/**
-	Templates embed.FS
-
 	//go:embed assets
 	Assets embed.FS
 )
@@ -39,19 +36,8 @@ func main() {
 
 	slog.Info("Starting bachtran.dev...")
 
-	var (
-		tmplFunc libs.ExecuteTemplateFunc
-		assets   http.FileSystem
-	)
+	var assets http.FileSystem = http.FS(Assets)
 
-	tmpl, err := template.New("").ParseFS(Templates, "templates/*.gohtml")
-	if err != nil {
-		slog.Error("failed to parse templates", slog.Any("error", err))
-		os.Exit(-1)
-	}
-
-	tmplFunc = tmpl.ExecuteTemplate
-	assets = http.FS(Assets)
 	httpClient := &http.Client{
 		Timeout: 10 * time.Second,
 	}
@@ -59,7 +45,7 @@ func main() {
 		&oauth2.Token{AccessToken: cfg.GitHub.AccessToken},
 	)))
 
-	s := libs.NewServer("null", cfg, httpClient, githubClient, assets, tmplFunc)
+	s := libs.NewServer("null", cfg, httpClient, githubClient, assets)
 	go s.Start()
 	defer s.Close()
 
