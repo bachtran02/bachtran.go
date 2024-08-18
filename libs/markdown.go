@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"portfolio/models"
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/renderer/html"
 )
 
-func (s *Server) ParseMarkdown(data *Data) error {
+func (s *Server) ParseMarkdown(data *models.Data) error {
 
 	md := goldmark.New(
 		goldmark.WithRendererOptions(

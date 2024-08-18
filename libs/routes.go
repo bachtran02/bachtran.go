@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"portfolio/tmpl"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"golang.org/x/exp/slog"
@@ -41,8 +43,9 @@ func (s *Server) Routes() http.Handler {
 			})
 		})
 		r.Route("/", func(r chi.Router) {
+			// r.Get("/", templ.Handler(tmpl.Index("peter")).ServeHTTP)
 			r.Get("/", s.index)
-			r.Head("/", s.index)
+			// r.Head("/", s.index)
 		})
 	})
 	r.NotFound(s.redirectRoot)
@@ -62,9 +65,11 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = s.tmpl(w, "index.gohtml", data); err != nil {
-		log.Println("failed to execute template:", err)
+	ch := &templ.ComponentHandler{
+		Component:   tmpl.Index(*data),
+		ContentType: "text/html; charset=utf-8",
 	}
+	ch.ServeHTTP(w, r)
 }
 
 func (s *Server) scoreboard(w http.ResponseWriter, r *http.Request) {
