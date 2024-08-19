@@ -142,6 +142,11 @@ header a {
   margin-bottom: 0;
 }
 
+#music > h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .nav {
   display: flex;
   grid-area: content;

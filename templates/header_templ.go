@@ -9,8 +9,8 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/bachtran02/bachtran.go/models"
-import "fmt"
 
+// import templ.SafeURL
 func Header(data models.Data) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -29,43 +29,20 @@ func Header(data models.Data) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header><div><a title=\"bachtran\" href=\"/\">Peter</a></div><div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header><div><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if data.Weather != nil {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a title=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s, %0.1f°F\n%s, %s", data.Weather.WeatherText, data.Weather.TemperatureF, data.Weather.City, data.Weather.Country))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/header.templ`, Line: 14, Col: 156}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" id=\"weather\" class=\"icon-btn\"><img src=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(data.Weather.WeatherIcon)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/header.templ`, Line: 16, Col: 55}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(data.Github.User.AvatarURL)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/header.templ`, Line: 9, Col: 50}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a title=\"Discord\" id=\"discord\" class=\"icon-btn\" href=\"https://discordapp.com/users/761308808823570453\" target=\"_blank\"></a> <a title=\"GitHub\" id=\"github\" class=\"icon-btn\" href=\"https://github.com/bachtran02\" target=\"_blank\"></a> <a title=\"Email\" id=\"email\" class=\"icon-btn\" href=\"mailto:xuanbachtran02@gmail.com\"></a></div></header>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"bachtran\"> <a title=\"bachtran\" href=\"/\">Peter</a></div><div><a title=\"Discord\" id=\"discord\" class=\"icon-btn\" href=\"https://discordapp.com/users/761308808823570453\" target=\"_blank\"></a> <a title=\"GitHub\" id=\"github\" class=\"icon-btn\" href=\"https://github.com/bachtran02\" target=\"_blank\"></a> <a title=\"Email\" id=\"email\" class=\"icon-btn\" href=\"mailto:xuanbachtran02@gmail.com\"></a></div></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

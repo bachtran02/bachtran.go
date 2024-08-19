@@ -8,8 +8,8 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go-webapp
+RUN CGO_ENABLED=0 GOOS=linux go build -o /bachtrango
 
 EXPOSE 80
 
-ENTRYPOINT ["/go-webapp"]
+ENTRYPOINT ["/go-bachtrango"]

@@ -47,6 +47,9 @@ func (s *Server) Routes() http.Handler {
 			r.Route("/scoreboard", func(r chi.Router) {
 				r.Get("/", s.scoreboard)
 			})
+			r.Route("/music", func(r chi.Router) {
+				r.Get("/", s.music)
+			})
 		})
 		r.Route("/", func(r chi.Router) {
 			r.Get("/", s.index)
@@ -79,13 +82,23 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) scoreboard(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	vars := s.FetchScoreboard(ctx)
+	sb := s.FetchScoreboard(ctx)
 
-	if vars.Data == nil {
-		slog.ErrorCtx(ctx, "failed to fetch scoreboard data", slog.Any("error", vars.Error))
+	if sb.Data == nil {
+		slog.ErrorCtx(ctx, "failed to fetch scoreboard data", slog.Any("error", sb.Error))
 		return
 	}
-	tmpl.Scoreboard(vars).Render(r.Context(), w)
+	tmpl.Scoreboard(sb).Render(r.Context(), w)
+}
+
+func (s *Server) music(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	music, err := s.FetchMusic(ctx)
+	if err != nil {
+		slog.ErrorCtx(ctx, "failed to fetch music data", slog.Any("error", err))
+		return
+	}
+	tmpl.Music(*music).Render(r.Context(), w)
 }
 
 func (s *Server) redirectRoot(w http.ResponseWriter, r *http.Request) {

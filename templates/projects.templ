@@ -4,6 +4,7 @@ import "github.com/bachtran02/bachtran.go/models"
 import "fmt"
 
 templ Projects(data models.Data) {
+    <h2>Top Projects:</h2>
     for _, project := range data.Github.Projects {
         <div class="project">
             <div class="project__name">

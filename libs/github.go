@@ -2,7 +2,6 @@ package libs
 
 import (
 	"context"
-	"html/template"
 
 	"github.com/a-h/templ"
 	"github.com/shurcooL/githubv4"
@@ -16,7 +15,7 @@ func (s *Server) FetchGithub(ctx context.Context) (*models.GitHubData, error) {
 			Login       string
 			AvatarURL   string
 			UserRepo    models.UserRepo     `graphql:"repository(name: $user)"`
-			PinnedItems models.Repositories `graphql:"pinnedItems(first: 3, types: REPOSITORY)"`
+			PinnedItems models.Repositories `graphql:"pinnedItems(first: 1, types: REPOSITORY)"`
 		} `graphql:"user(login: $user)"`
 	}
 	variables := map[string]interface{}{
@@ -30,7 +29,7 @@ func (s *Server) FetchGithub(ctx context.Context) (*models.GitHubData, error) {
 	return &models.GitHubData{
 		User: models.User{
 			Name:      query.User.Login,
-			AvatarURL: template.URL(query.User.AvatarURL),
+			AvatarURL: query.User.AvatarURL,
 		},
 		HomeRaw:  query.User.UserRepo.Object.Blob.Text,
 		Projects: parseRepositories(query.User.PinnedItems),

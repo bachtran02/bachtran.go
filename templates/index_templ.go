@@ -48,7 +48,7 @@ func Index(data models.Data) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div id=\"projects\" class=\"nav\"><h2>Top Projects:</h2>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div id=\"projects\" class=\"nav\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -56,14 +56,14 @@ func Index(data models.Data) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><br><div id=\"scoreboard\" class=\"nav\"></div></main><footer><p>© 2024 - <a href=\"https://github.com/bachtran02\" target=\"_blank\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><br><div id=\"music\" class=\"nav\"></div><div id=\"scoreboard\" class=\"nav\"></div></main><footer><p>© 2024 - <a href=\"https://github.com/bachtran02\" target=\"_blank\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(`@`)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/index.templ`, Line: 25, Col: 82}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/index.templ`, Line: 27, Col: 82}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {

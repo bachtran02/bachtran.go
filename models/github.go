@@ -1,7 +1,6 @@
 package models
 
 import (
-	"html/template"
 	"time"
 
 	"github.com/a-h/templ"
@@ -36,7 +35,7 @@ type GitHubData struct {
 
 type User struct {
 	Name      string
-	AvatarURL template.URL
+	AvatarURL string
 }
 
 type UserRepo struct {

@@ -1,0 +1,19 @@
+package tmpl
+
+import "github.com/bachtran02/bachtran.go/models"
+
+templ Music(track models.MusicTrack) {
+    if track.IsPlaying == true {
+        <h2>Listening to:</h2>
+        <div class="player">
+            <div class="info-wrapper">
+                <img src={ track.ArtworkUrl } alt="track-image">
+                <div class="info">
+                    <h3>{ track.Title }</h3>
+                    <p>{ track.Artist }</p>
+                </div>
+            </div>
+        </div>
+        <br/>   
+    }
+}

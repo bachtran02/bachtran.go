@@ -26,7 +26,7 @@ func Head() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><meta charset=\"utf-8\"><title>bachtran.dev</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/style.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/home.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/projects.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/scoreboard.css\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons+Outlined|Material+Icons\"><link rel=\"icon\" href=\"/assets/favicon.png\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"theme-color\" content=\"#1d2433\"></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><meta charset=\"utf-8\"><title>bachtran.dev</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/style.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/home.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/projects.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/scoreboard.css\"><link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/styles/music.css\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons+Outlined|Material+Icons\"><link rel=\"icon\" href=\"/assets/favicon.png\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"theme-color\" content=\"#1d2433\"></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
