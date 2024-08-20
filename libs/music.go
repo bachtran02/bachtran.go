@@ -12,7 +12,7 @@ import (
 
 func (s *Server) FetchMusic(ctx context.Context) (*models.MusicTrack, error) {
 
-	url := "http://localhost:8080/my_track"
+	url := "http://MusicCatGo:8080/my_track"
 	rq, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err

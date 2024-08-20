@@ -1,4 +1,4 @@
-FROM golang:1.20
+FROM golang:1.22
 
 WORKDIR /build
 
@@ -8,8 +8,8 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /bachtrango
+RUN CGO_ENABLED=0 GOOS=linux go build -o bachtrango
 
 EXPOSE 80
 
-ENTRYPOINT ["/go-bachtrango"]
+ENTRYPOINT ["/build/bachtrango"]
