@@ -9,19 +9,19 @@ templ Index(data models.Data) {
         @Header(data)
 
         <main>
+            <input type="radio" name="nav" id="nav-home" checked/>
+            <label for="nav-home" title="Home">Home</label>
+
+            <input type="radio" name="nav" id="nav-projects"/>
+            <label for="nav-projects" title="Projects">Projects</label>
+
             <div id="home" class="nav">
-                <div>
-		            @templ.Raw( data.Home.Content )
-                </div>
-	        </div>
-            <div id="projects" class="nav">
+                @Home(data)
+            </div>
+
+            <ul id="projects" class="nav">
                 @Projects(data)
-	        </div>
-            <br/>
-
-            <div id="music" class="nav"></div>
-
-	        <div id="scoreboard" class="nav"></div>
+            </ul>
         </main>
         <footer>
 	        <p>© 2024 - <a href="https://github.com/bachtran02" target="_blank">{`@`}bachtran.dev</a></p>

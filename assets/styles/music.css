@@ -3,8 +3,10 @@
     padding: 1rem;
     border-radius: 1rem;
 
-    display: grid;
-    place-content: center;
+    /* display: grid;
+    place-content: center; */
+    display: flex;
+    align-items: center;
 }
 
 .player img {
@@ -25,10 +27,11 @@
     color: #E1E1E6;
 }
 
-.info h3 {
+.info h3 a {
     font-size: 17px;
     color: #E1E1E6;
     padding-bottom: 2px;
+    text-decoration: none;
 }
 
 .info p {

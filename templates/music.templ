@@ -3,17 +3,18 @@ package tmpl
 import "github.com/bachtran02/bachtran.go/models"
 
 templ Music(track models.MusicTrack) {
-    if track.IsPlaying == true {
-        <h2>Listening to:</h2>
-        <div class="player">
+    <h2>Listening to</h2>
+    <div class="player">
+        if track.IsPlaying == true {
             <div class="info-wrapper">
                 <img src={ track.ArtworkUrl } alt="track-image">
                 <div class="info">
-                    <h3>{ track.Title }</h3>
+                    <h3><a href={ track.Uri }>{ track.Title }</a></h3>
                     <p>{ track.Artist }</p>
                 </div>
             </div>
-        </div>
-        <br/>   
-    }
+        } else {
+            Not currently streaming!
+        }
+    </div>
 }

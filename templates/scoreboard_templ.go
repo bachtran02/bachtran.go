@@ -28,7 +28,7 @@ func Scoreboard(sb models.Scoreboard) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>Sports Corner:</h2>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h2>Sports Corner</h2>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

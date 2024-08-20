@@ -15,7 +15,7 @@ func (s *Server) FetchGithub(ctx context.Context) (*models.GitHubData, error) {
 			Login       string
 			AvatarURL   string
 			UserRepo    models.UserRepo     `graphql:"repository(name: $user)"`
-			PinnedItems models.Repositories `graphql:"pinnedItems(first: 1, types: REPOSITORY)"`
+			PinnedItems models.Repositories `graphql:"pinnedItems(first: 10, types: REPOSITORY)"`
 		} `graphql:"user(login: $user)"`
 	}
 	variables := map[string]interface{}{

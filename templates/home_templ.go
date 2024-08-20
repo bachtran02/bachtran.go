@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/bachtran02/bachtran.go/models"
 
-func Header(data models.Data) templ.Component {
+func Home(data models.Data) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -28,20 +28,15 @@ func Header(data models.Data) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header><div><img src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"aboutme\" class=\"home_item\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(data.Github.User.AvatarURL)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/header.templ`, Line: 8, Col: 50}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		templ_7745c5c3_Err = templ.Raw(data.Home.Content).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"bachtran\"> <a title=\"bachtran\" href=\"/\">Peter</a></div><div><a title=\"Discord\" id=\"discord\" class=\"icon-btn\" href=\"https://discordapp.com/users/761308808823570453\" target=\"_blank\"></a> <a title=\"GitHub\" id=\"github\" class=\"icon-btn\" href=\"https://github.com/bachtran02\" target=\"_blank\"></a> <a title=\"Email\" id=\"email\" class=\"icon-btn\" href=\"mailto:xuanbachtran02@gmail.com\"></a></div></header>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div id=\"music\" class=\"home_item\"></div><div id=\"scoreboard\" class=\"home_item\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

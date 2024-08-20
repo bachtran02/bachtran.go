@@ -40,15 +40,15 @@ func Index(data models.Data) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main><div id=\"home\" class=\"nav\"><div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main><input type=\"radio\" name=\"nav\" id=\"nav-home\" checked> <label for=\"nav-home\" title=\"Home\">Home</label> <input type=\"radio\" name=\"nav\" id=\"nav-projects\"> <label for=\"nav-projects\" title=\"Projects\">Projects</label><div id=\"home\" class=\"nav\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.Raw(data.Home.Content).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Home(data).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div id=\"projects\" class=\"nav\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><ul id=\"projects\" class=\"nav\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -56,7 +56,7 @@ func Index(data models.Data) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><br><div id=\"music\" class=\"nav\"></div><div id=\"scoreboard\" class=\"nav\"></div></main><footer><p>© 2024 - <a href=\"https://github.com/bachtran02\" target=\"_blank\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></main><footer><p>© 2024 - <a href=\"https://github.com/bachtran02\" target=\"_blank\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
