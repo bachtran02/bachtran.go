@@ -2,66 +2,20 @@ package libs
 
 import (
 	"context"
-	"html/template"
-	"time"
 
+	"github.com/a-h/templ"
 	"github.com/shurcooL/githubv4"
+
+	"github.com/bachtran02/bachtran.go/models"
 )
 
-type GitHubData struct {
-	User     User
-	HomeRaw  string
-	Projects []Project
-}
-
-type User struct {
-	Name      string
-	AvatarURL template.URL
-}
-
-type UserRepo struct {
-	Object struct {
-		Blob struct {
-			Text string
-		} `graphql:"... on Blob"`
-	} `graphql:"object(expression: $expression)"`
-}
-
-type Repositories struct {
-	Nodes []struct {
-		Nodes struct {
-			Name             string
-			URL              string
-			Description      string
-			StargazerCount   int
-			ForkCount        int
-			PushedAt         time.Time
-			RepositoryTopics struct {
-				Nodes []struct {
-					Topic struct {
-						Name string
-					}
-					URL string
-				}
-			} `graphql:"repositoryTopics(first: 5)"`
-			Languages struct {
-				Nodes []struct {
-					Name  string
-					Color string
-				}
-			} `graphql:"languages(first: 1, orderBy: {field: SIZE, direction: DESC})"`
-		} `graphql:"... on Repository"`
-	}
-	TotalCount int
-}
-
-func (s *Server) FetchGithub(ctx context.Context) (*GitHubData, error) {
+func (s *Server) FetchGithub(ctx context.Context) (*models.GitHubData, error) {
 	var query struct {
 		User struct {
 			Login       string
 			AvatarURL   string
-			UserRepo    UserRepo     `graphql:"repository(name: $user)"`
-			PinnedItems Repositories `graphql:"pinnedItems(first: 3, types: REPOSITORY)"`
+			UserRepo    models.UserRepo     `graphql:"repository(name: $user)"`
+			PinnedItems models.Repositories `graphql:"pinnedItems(first: 10, types: REPOSITORY)"`
 		} `graphql:"user(login: $user)"`
 	}
 	variables := map[string]interface{}{
@@ -72,41 +26,41 @@ func (s *Server) FetchGithub(ctx context.Context) (*GitHubData, error) {
 		return nil, err
 	}
 
-	return &GitHubData{
-		User: User{
+	return &models.GitHubData{
+		User: models.User{
 			Name:      query.User.Login,
-			AvatarURL: template.URL(query.User.AvatarURL),
+			AvatarURL: query.User.AvatarURL,
 		},
 		HomeRaw:  query.User.UserRepo.Object.Blob.Text,
 		Projects: parseRepositories(query.User.PinnedItems),
 	}, nil
 }
 
-func parseRepositories(pinnedItems Repositories) []Project {
-	projects := make([]Project, 0, len(pinnedItems.Nodes))
+func parseRepositories(pinnedItems models.Repositories) []models.Project {
+	projects := make([]models.Project, 0, len(pinnedItems.Nodes))
 	for _, onode := range pinnedItems.Nodes {
-		var language *Language
+		var language *models.Language
 		node := onode.Nodes
 		if len(node.Languages.Nodes) > 0 {
 			lNode := node.Languages.Nodes[0]
-			language = &Language{
+			language = &models.Language{
 				Name:  lNode.Name,
 				Color: lNode.Color,
 			}
 		}
 
-		topics := make([]Topic, 0, len(node.RepositoryTopics.Nodes))
+		topics := make([]models.Topic, 0, len(node.RepositoryTopics.Nodes))
 		for _, tNode := range node.RepositoryTopics.Nodes {
-			topics = append(topics, Topic{
+			topics = append(topics, models.Topic{
 				Name: tNode.Topic.Name,
-				URL:  tNode.URL,
+				URL:  templ.SafeURL(tNode.URL),
 			})
 		}
 
-		projects = append(projects, Project{
+		projects = append(projects, models.Project{
 			Name:        node.Name,
 			Description: node.Description,
-			URL:         template.URL(node.URL),
+			URL:         templ.SafeURL(node.URL),
 			Stars:       node.StargazerCount,
 			Forks:       node.ForkCount,
 			UpdatedAt:   node.PushedAt,

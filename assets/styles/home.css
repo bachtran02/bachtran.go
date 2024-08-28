@@ -1,11 +1,15 @@
-#home a {
+.home_item {
+    margin-bottom: 2rem;
+}
+
+#aboutme a {
     color: var(--link-color);
 }
 
-#home a:hover {
+#aboutme a:hover {
     color: var(--link-color-hover);
 }
 
-#home a:visited {
+#aboutme a:visited {
     color: var(--link-color-visited);
 }

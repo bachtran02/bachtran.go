@@ -22,7 +22,6 @@ func LoadConfig(path string) (Config, error) {
 
 type Config struct {
 	GitHub      GitHubConfig     `yaml:"github"`
-	WeatherApi  WeatherApiConfig `yaml:"weather_api"`
 	Scoreboard  ScoreboardConfig `yaml:"scoreboard"`
 	ListenAddr  string           `yaml:"listen_addr"`
 	AboutMePath string           `yaml:"aboutme_path"`
@@ -32,11 +31,6 @@ type Config struct {
 type GitHubConfig struct {
 	AccessToken string `yaml:"access_token"`
 	User        string `yaml:"user"`
-}
-
-type WeatherApiConfig struct {
-	ApiKey string `yaml:"api_key"`
-	City   string `yaml:"city"`
 }
 
 type ScoreboardConfig struct {

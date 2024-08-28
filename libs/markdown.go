@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"html/template"
 
+	"github.com/bachtran02/bachtran.go/models"
+
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/renderer/html"
 )
 
-func (s *Server) ParseMarkdown(data *Data) error {
+func (s *Server) ParseMarkdown(data *models.Data) error {
 
 	md := goldmark.New(
 		goldmark.WithRendererOptions(
