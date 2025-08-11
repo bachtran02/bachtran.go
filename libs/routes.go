@@ -92,13 +92,7 @@ func (s *Server) scoreboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) music(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	music, err := s.FetchMusic(ctx)
-	if err != nil {
-		slog.ErrorCtx(ctx, "failed to fetch music data", slog.Any("error", err))
-		return
-	}
-	tmpl.Music(*music).Render(r.Context(), w)
+	tmpl.Music().Render(r.Context(), w)
 }
 
 func (s *Server) redirectRoot(w http.ResponseWriter, r *http.Request) {

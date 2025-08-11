@@ -2,9 +2,6 @@
     background-color: #1d273c;
     padding: 1rem;
     border-radius: 1rem;
-
-    /* display: grid;
-    place-content: center; */
     display: flex;
     align-items: center;
 }
@@ -27,16 +24,66 @@
     color: #E1E1E6;
 }
 
-.info h3 a {
+.info h3 {
     font-size: 17px;
     color: #E1E1E6;
     padding-bottom: 2px;
     text-decoration: none;
+    margin-bottom: 2px;
+}
+
+.info h3 a {
+    color: #E1E1E6;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+    width: 300px;
+    overflow: hidden;
 }
 
 .info p {
     opacity: 0.7;
-    font-size: 15px;
+    font-size: 14px;
+    margin-top: 2px;
 }
 
-  
+.progress-and-time-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.progress-bar-container {
+    width: 200px;
+    height: 5px;
+    background-color: #3a475e; /* Background of the empty part of the bar */
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #1DB954; /* Color of the filled part of the bar (Spotify green) */
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.1s linear; /* For smooth transition for progress updates */
+}
+
+.time-display {
+    font-size: 12px;
+    color: #B3B3B3;
+    white-space: nowrap;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    align-self: center;
+}
+
+.time-display span {
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
