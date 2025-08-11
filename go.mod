@@ -1,10 +1,11 @@
 module github.com/bachtran02/bachtran.go
 
-go 1.21
+go 1.23.0
 
-toolchain go1.22.4
+toolchain go1.24.6
 
 require (
+	github.com/a-h/templ v0.3.924
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/shurcooL/githubv4 v0.0.0-20230704064427-599ae7bbf278
 	github.com/yuin/goldmark v1.5.5
@@ -14,14 +15,9 @@ require (
 )
 
 require (
-	github.com/a-h/templ v0.2.747 // indirect
-	github.com/disgoorg/disgolink/v3 v3.0.2 // indirect
-	github.com/disgoorg/json v1.1.0 // indirect
-	github.com/disgoorg/snowflake/v2 v2.0.3 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/shurcooL/graphql v0.0.0-20230722043721-ed46e5a46466 // indirect
-	golang.org/x/net v0.24.0 // indirect
+	golang.org/x/net v0.39.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 )
