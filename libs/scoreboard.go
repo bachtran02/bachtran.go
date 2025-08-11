@@ -15,6 +15,7 @@ import (
 func (s *Server) FetchScoreboard(ctx context.Context) models.Scoreboard {
 	url := fmt.Sprintf("https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=soccer&team=%s", s.cfg.Scoreboard.Team)
 	rq, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	rq.Header.Set("Cache-Control", "no-cache")
 	if err != nil {
 		return models.Scoreboard{Error: fmt.Sprintf("failed to create request: %s", err)}
 	}
@@ -92,11 +93,12 @@ func getClock(state_id string, state string, clock string, description string) s
 }
 
 func getDescription(state string, description string) string {
-	if state == "in" {
+	switch state {
+	case "in":
 		return description
-	} else if state == "pre" {
+	case "pre":
 		return "Scheduled"
-	} else if state == "post" {
+	case "post":
 		return "Finished"
 	}
 	return "unknown_status"
