@@ -82,10 +82,9 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) scoreboard(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	sb := s.FetchScoreboard(ctx)
-
-	if sb.Data == nil {
-		slog.ErrorCtx(ctx, "failed to fetch scoreboard data", slog.Any("error", sb.Error))
+	sb, err := s.FetchScoreboard(ctx)
+	if err != nil {
+		s.error(w, r, fmt.Errorf("failed to fetch scoreboard data: %w", err), http.StatusInternalServerError)
 		return
 	}
 	tmpl.Scoreboard(sb).Render(r.Context(), w)

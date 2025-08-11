@@ -14,7 +14,7 @@ templ Scoreboard(sb models.Scoreboard) {
                 } else {
                     <div class="match-status">{ sb.Data.Status.Description }</div>
                 }
-                <div class="match-tournament">{ sb.Data.League.Name }</div>
+                <div class="match-tournament league-info"><img class="league-logo" src={ sb.Data.LeagueIconUrl } alt={ sb.Data.League.Name + " logo" }/><span>{ sb.Data.League.Name }</span></div>
                 <div class="match-actions">
                     <a class="btn-icon" target="_blank" href={ templ.URL(sb.Data.MatchUrl) }><i class="material-icons-outlined">open_in_new</i></a>
                 </div>
@@ -32,7 +32,7 @@ templ Scoreboard(sb models.Scoreboard) {
                 </div>
                 <div class="column">
                     <div class="match-details">
-                        <div class="match-date">
+                        <div class="match-date" data-original-time={ sb.Data.League.Events[0].Date }>
                             { sb.Data.Time.Date } at <strong>{ sb.Data.Time.Time }</strong>
                         </div>
                         <div class="match-score">

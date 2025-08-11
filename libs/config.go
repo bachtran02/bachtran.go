@@ -34,8 +34,7 @@ type GitHubConfig struct {
 }
 
 type ScoreboardConfig struct {
-	Team     string `yaml:"team"`
-	Timezone string `yaml:"timezone"`
+	Team string `yaml:"team"`
 }
 
 type LogConfig struct {

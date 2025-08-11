@@ -48,14 +48,20 @@
 .match-tournament {
   font-weight: 600;
   text-align: center;
-  gap: 0.5rem;
+  width: 50%;
+}
+
+.league-info {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  gap: 8px; /* Space between logo and text */
 }
-.match-tournament img {
-  width: 20px;
+
+.league-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
 .match-actions {
@@ -86,9 +92,11 @@
 .column {
   padding: 30px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: calc(100% / 3);
+  flex: 1;
+  min-width: 120px;
 }
 
 .team {
@@ -114,8 +122,12 @@
 .team-name {
   text-align: center;
   margin-top: 24px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .team-url {
   color: var(--text-primary);

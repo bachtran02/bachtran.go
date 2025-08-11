@@ -7,13 +7,14 @@ type Scoreboard struct {
 }
 
 type ScoreboardData struct {
-	HomeTeam Team
-	AwayTeam Team
-	Venue    string
-	Time     MatchTime
-	Status   Status
-	League   League
-	MatchUrl string
+	HomeTeam      Team
+	AwayTeam      Team
+	Venue         string
+	Time          MatchTime
+	Status        Status
+	League        League
+	LeagueIconUrl string
+	MatchUrl      string
 }
 
 type Team struct {
@@ -45,6 +46,7 @@ type Sport struct {
 
 type League struct {
 	Name   string  `json:"name"`
+	Code   string  `json:"slug"`
 	Events []Event `json:"events"`
 }
 

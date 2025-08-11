@@ -16,7 +16,31 @@ async function loadScoreboard() {
         return;
     }
     document.querySelector("#scoreboard").innerHTML = await response.text();
-    // console.log("scoreboard successfully updated")
+    convertMatchTimesToUserTimezone(); // Call the new function here
+}
+
+function convertMatchTimesToUserTimezone() {
+    const matchTimeElements = document.querySelectorAll('[data-original-time]');
+
+    matchTimeElements.forEach(element => {
+        const originalTimeStr = element.getAttribute('data-original-time');
+        if (originalTimeStr) {
+            try {
+                const date = new Date(originalTimeStr);
+                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                const formattedDate = new Intl.DateTimeFormat(
+                    undefined, { month: 'short', day: 'numeric', timeZone: userTimeZone }).format(date);
+                const formattedTime = new Intl.DateTimeFormat(
+                    undefined, { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: userTimeZone }).format(date);
+
+                element.innerHTML = `${formattedDate} at <strong>${formattedTime}</strong>`;
+
+            } catch (e) {
+                console.error('Error converting time:', e);
+            }
+        }
+    });
 }
 
 function scoreboardError() {
