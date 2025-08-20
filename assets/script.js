@@ -74,6 +74,14 @@ function renderProgressBar() {
         return;
     }
 
+    if (currentTrack.is_paused) {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+        return;
+    }
+
     if (currentTrack.is_stream) {
         const progressBar = document.getElementById("progress-bar");
         if (progressBar) {
@@ -192,6 +200,7 @@ function connectWebSocket() {
             // Update currentTrack state based on incoming data.track
             currentTrack = {
                 is_playing: data.is_playing,
+                is_paused: data.is_paused,
                 title: data.track.title,
                 artist: data.track.author,
                 album_art_url: data.track.artworkUrl,
