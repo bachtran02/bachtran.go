@@ -1,0 +1,61 @@
+.hero-banner {
+  height: 270px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 32px 32px;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  position: absolute;
+  inset: 0;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.0) 0%, 
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(10, 10, 10, 0.6) 60%,
+    rgba(10, 10, 10, 0.8) 70%,
+    rgba(10, 10, 10, 1) 90%,
+    rgba(10, 10, 10, 1) 100%);
+  z-index: 1;
+}
+
+.hero-avatar {
+  display: flex;
+  align-items: flex-end;
+  margin: -90px 0 10px 10px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.hero-avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  border: 3px solid var(--bg-primary);
+  object-fit: cover;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+

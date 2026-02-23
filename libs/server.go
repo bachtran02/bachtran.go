@@ -12,11 +12,12 @@ type ExecuteTemplateFunc func(wr io.Writer, name string, data any) error
 
 func NewServer(version string, cfg Config, httpClient *http.Client, githubClient *githubv4.Client, assets http.FileSystem) *Server {
 	s := &Server{
-		version:      version,
-		cfg:          cfg,
-		httpClient:   httpClient,
-		githubClient: githubClient,
-		assets:       assets,
+		version:          version,
+		cfg:              cfg,
+		httpClient:       httpClient,
+		githubClient:     githubClient,
+		prometheusClient: NewPrometheusClient(cfg.Prometheus.NodeExporterURL),
+		assets:           assets,
 	}
 
 	s.server = &http.Server{
@@ -28,12 +29,13 @@ func NewServer(version string, cfg Config, httpClient *http.Client, githubClient
 }
 
 type Server struct {
-	version      string
-	cfg          Config
-	httpClient   *http.Client
-	githubClient *githubv4.Client
-	server       *http.Server
-	assets       http.FileSystem
+	version          string
+	cfg              Config
+	httpClient       *http.Client
+	githubClient     *githubv4.Client
+	prometheusClient *PrometheusClient
+	server           *http.Server
+	assets           http.FileSystem
 }
 
 func (s *Server) Start() {

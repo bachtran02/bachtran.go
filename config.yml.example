@@ -9,6 +9,9 @@ weather_api:
 scoreboard:
   team:
 
+prometheus:
+  node_exporter_url: http://localhost:9100
+
 listen_addr: 
 
 log:

@@ -1,0 +1,38 @@
+package views
+
+templ Music() {
+    <section class="section" id="music">
+        <div class="player">
+        <div id="music-player-content" style="display: flex;">
+            <div class="player-content">
+                <img id="track-artwork" src="https://i.scdn.co/image/ab67616d0000b273e319baafd16e84f0408af2a0" alt="track-image"/>
+                <div class="music-info">
+                    <h3 id="track-artist">Mikel Arteta</h3>
+                    <div class="track-details">
+                        <p><a id="track-title" href="#" target="_blank">Eighty Leon</a></p>
+                    </div>
+                </div>
+                <div class="track-time">
+                    <span id="current-time">2:14</span> / <span id="total-duration">3:45</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+        </div>
+        <div id="not-streaming-message" style="display: none;">
+            <div class="player-content">
+                <div class="radio-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="2"/>
+                        <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+                    </svg>
+                </div>
+                <div class="music-info">
+                    <h3>Not currently streaming!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+}

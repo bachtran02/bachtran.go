@@ -1,89 +1,118 @@
 .player {
-    background-color: #1d273c;
-    padding: 1rem;
-    border-radius: 1rem;
+    background: var(--bg-primary);
+    border-radius: 0.375rem;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    height: 60px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#music-player-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.player-content {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem;
+    flex: 1;
 }
 
 .player img {
-    width: 160px;
-    height: 120px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
-    border-radius: 1rem;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.info-wrapper {
+.radio-icon {
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
-    gap: 30px;
-
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-.info {
-    color: #E1E1E6;
+.music-info {
+    flex: 1;
+    color: white;
+    min-width: 0;
 }
 
-.info h3 {
-    font-size: 17px;
-    color: #E1E1E6;
-    padding-bottom: 2px;
+.music-info h3 {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 0.125rem 0;
+    letter-spacing: 0;
+}
+
+.track-details {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.track-details p {
+    margin: 0;
+    font-size: 0.7rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.track-details a {
+    color: white;
     text-decoration: none;
-    margin-bottom: 2px;
+    font-weight: 500;
 }
 
-.info h3 a {
-    color: #E1E1E6;
-    text-decoration: none;
-    display: inline-block;
+.track-details a:hover {
+    text-decoration: underline;
+}
+
+.track-time {
+    margin-left: auto;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
     white-space: nowrap;
-    width: 300px;
-    overflow: hidden;
-}
-
-.info p {
-    opacity: 0.7;
-    font-size: 14px;
-    margin-top: 2px;
-}
-
-.progress-and-time-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 15px;
+    opacity: 0.9;
 }
 
 .progress-bar-container {
-    width: 200px;
-    height: 5px;
-    background-color: #3a475e; /* Background of the empty part of the bar */
-    border-radius: 4px;
+    width: 100%;
+    height: 2px;
     overflow: hidden;
-    margin: 0;
-    padding: 0;
 }
 
-.progress-bar {
+#progress-bar {
     height: 100%;
-    background-color: #1DB954; /* Color of the filled part of the bar (Spotify green) */
-    width: 0%;
-    border-radius: 4px;
-    transition: width 0.1s linear; /* For smooth transition for progress updates */
+    background-color: white;
+    width: 60%;
+    transition: width 0.1s linear;
 }
 
-.time-display {
-    font-size: 12px;
-    color: #B3B3B3;
-    white-space: nowrap;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-    align-self: center;
+#not-streaming-message {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 
-.time-display span {
-    vertical-align: middle;
-    margin: 0;
-    padding: 0;
+#not-streaming-message .music-info h3 {
+    opacity: 0.7;
 }

@@ -1,0 +1,67 @@
+package views
+
+import "github.com/bachtran02/bachtran.go/models"
+import "fmt"
+import "time"
+
+templ Homelab(devices []models.HomelabStatus) {
+	<section id="homelab" class="section">		
+		<div class="homelab-grid">
+			for _, device := range devices {
+				<div class="device-card">
+					<div class="device-header">
+						<h3 class="device-name">{ device.SystemInfo.Hostname }</h3>
+						<span class="device-uptime">{ formatUptime(device.Uptime) }</span>
+					</div>
+					<div class="device-metrics">
+						<div class="metric-item">
+							<span class="metric-label">CPU</span>
+							<span class="metric-value">{ fmt.Sprintf("%.0f%%", device.CPU.UsagePercent) }</span>
+						</div>
+						<div class="metric-item">
+							<span class="metric-label">MEM</span>
+							<span class="metric-value">{ fmt.Sprintf("%.0f%%", device.Memory.UsedPercent) }</span>
+						</div>
+						<div class="metric-item">
+							<span class="metric-label">DISK</span>
+							<span class="metric-value">{ fmt.Sprintf("%.0f%%", device.Disk.UsedPercent) }</span>
+						</div>
+						if device.CPU.Temperature > 0 {
+							<div class="metric-item">
+								<span class="metric-label">TEMP</span>
+								<span class="metric-value">{ fmt.Sprintf("%.0f°C", device.CPU.Temperature) }</span>
+							</div>
+						}
+					</div>
+				</div>
+			}
+		</div>
+	</section>
+}
+
+func formatBytes(bytes uint64) string {
+	const unit = 1024
+	if bytes < unit {
+		return fmt.Sprintf("%d B", bytes)
+	}
+	div, exp := uint64(unit), 0
+	for n := bytes / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %ciB", float64(bytes)/float64(div), "KMGTPE"[exp])
+}
+
+func formatUptime(seconds float64) string {
+	duration := time.Duration(seconds) * time.Second
+	days := int(duration.Hours() / 24)
+	hours := int(duration.Hours()) % 24
+	minutes := int(duration.Minutes()) % 60
+	
+	if days > 0 {
+		return fmt.Sprintf("%dd %dh %dm", days, hours, minutes)
+	} else if hours > 0 {
+		return fmt.Sprintf("%dh %dm", hours, minutes)
+	}
+	return fmt.Sprintf("%dm", minutes)
+}

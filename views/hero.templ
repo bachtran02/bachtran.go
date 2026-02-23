@@ -1,0 +1,19 @@
+package views
+
+import "github.com/bachtran02/bachtran.go/models"
+
+templ Hero(data models.Data) {
+    <section id="hero" class="section">
+        <div class="hero-banner">
+            <img src="https://live.staticflickr.com/65535/55083749486_cabb294cd5_k.jpg" alt="banner" class="banner-image"/>
+            <div class="banner-overlay"></div>
+        </div>
+        <div class="hero-avatar">
+            <img src={ data.Github.User.AvatarURL } alt="avatar"/>
+        </div>
+        <div class="hero-info">
+            <div class="hero-title">Bach Tran</div>
+            <div class="hero-subtitle">UC Berkeley @ 2025 </div>
+        </div>
+    </section>
+}

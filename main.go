@@ -41,9 +41,14 @@ func main() {
 	httpClient := &http.Client{
 		Timeout: 10 * time.Second,
 	}
-	githubClient := githubv4.NewClient(oauth2.NewClient(context.Background(), oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: cfg.GitHub.AccessToken},
-	)))
+	githubClient := githubv4.NewClient(
+		oauth2.NewClient(
+			context.Background(),
+			oauth2.StaticTokenSource(
+				&oauth2.Token{
+					AccessToken: cfg.GitHub.AccessToken,
+				},
+			)))
 
 	s := libs.NewServer("null", cfg, httpClient, githubClient, assets)
 	go s.Start()

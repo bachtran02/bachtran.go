@@ -1,0 +1,23 @@
+package views
+
+import "github.com/bachtran02/bachtran.go/models"
+
+templ Index(data models.Data) {
+    <!DOCTYPE html>
+    <html lang="en">
+        @Head()
+        <body>
+            <main>
+                @Hero(data)
+                @Music()
+                @About()
+                @Hub(data)
+            </main>
+
+            <footer>
+                <p>© 2026 - <a href="https://github.com/bachtran02" target="_blank">{`@`}bachtran.dev</a></p>
+            </footer>
+            <script src="/assets/script.js" defer></script>
+        </body>
+    </html>
+}

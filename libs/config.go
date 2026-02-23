@@ -23,6 +23,7 @@ func LoadConfig(path string) (Config, error) {
 type Config struct {
 	GitHub      GitHubConfig     `yaml:"github"`
 	Scoreboard  ScoreboardConfig `yaml:"scoreboard"`
+	Prometheus  PrometheusConfig `yaml:"prometheus"`
 	ListenAddr  string           `yaml:"listen_addr"`
 	AboutMePath string           `yaml:"aboutme_path"`
 	Log         LogConfig        `yaml:"log"`
@@ -35,6 +36,10 @@ type GitHubConfig struct {
 
 type ScoreboardConfig struct {
 	Team string `yaml:"team"`
+}
+
+type PrometheusConfig struct {
+	NodeExporterURL string `yaml:"node_exporter_url"`
 }
 
 type LogConfig struct {

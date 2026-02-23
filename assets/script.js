@@ -1,51 +1,85 @@
-async function loadScoreboard() {
-    let response;
-    try {
-        response = await fetch(`/api/scoreboard`, {
-            method: "GET"
-        });
-    } catch (e) {
-        console.error("error fetching scoreboard:", e);
-        scoreboardError();
-        return;
-    }
+// async function loadScoreboard() {
+//     let response;
+//     try {
+//         response = await fetch(`/api/scoreboard`, {
+//             method: "GET"
+//         });
+//     } catch (e) {
+//         console.error("error fetching scoreboard:", e);
+//         scoreboardError();
+//         return;
+//     }
 
-    if (!response.ok) {
-        console.error("error fetching scoreboard:", response);
-        scoreboardError();
-        return;
-    }
-    document.querySelector("#scoreboard").innerHTML = await response.text();
-    convertMatchTimesToUserTimezone(); // Call the new function here
-}
+//     if (!response.ok) {
+//         console.error("error fetching scoreboard:", response);
+//         scoreboardError();
+//         return;
+//     }
+//     document.querySelector("#scoreboard").innerHTML = await response.text();
+//     convertMatchTimesToUserTimezone(); // Call the new function here
+// }
 
-function convertMatchTimesToUserTimezone() {
-    const matchTimeElements = document.querySelectorAll('[data-original-time]');
+// function convertMatchTimesToUserTimezone() {
+//     const matchTimeElements = document.querySelectorAll('[data-original-time]');
 
-    matchTimeElements.forEach(element => {
-        const originalTimeStr = element.getAttribute('data-original-time');
-        if (originalTimeStr) {
-            try {
-                const date = new Date(originalTimeStr);
-                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+//     matchTimeElements.forEach(element => {
+//         const originalTimeStr = element.getAttribute('data-original-time');
+//         if (originalTimeStr) {
+//             try {
+//                 const date = new Date(originalTimeStr);
+//                 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-                const formattedDate = new Intl.DateTimeFormat(
-                    undefined, { month: 'short', day: 'numeric', timeZone: userTimeZone }).format(date);
-                const formattedTime = new Intl.DateTimeFormat(
-                    undefined, { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: userTimeZone }).format(date);
+//                 const formattedDate = new Intl.DateTimeFormat(
+//                     undefined, { month: 'short', day: 'numeric', timeZone: userTimeZone }).format(date);
+//                 const formattedTime = new Intl.DateTimeFormat(
+//                     undefined, { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: userTimeZone }).format(date);
 
-                element.innerHTML = `${formattedDate} at <strong>${formattedTime}</strong>`;
+//                 element.innerHTML = `${formattedDate} at <strong>${formattedTime}</strong>`;
 
-            } catch (e) {
-                console.error('Error converting time:', e);
-            }
-        }
-    });
-}
+//             } catch (e) {
+//                 console.error('Error converting time:', e);
+//             }
+//         }
+//     });
+// }
 
-function scoreboardError() {
-    document.querySelector("#scoreboard").innerHTML = `<span class="error">Error fetching scoreboard data</span>`;
-}
+// function scoreboardError() {
+//     document.querySelector("#scoreboard").innerHTML = `<span class="error">Error fetching scoreboard data</span>`;
+// }
+
+// Homelab data is now rendered directly in the template, not fetched via JS
+// async function loadHomelab() {
+//     const homelabElement = document.querySelector("#homelab");
+//     if (!homelabElement) {
+//         console.warn("Homelab element not found, skipping load");
+//         return;
+//     }
+//     
+//     let response;
+//     try {
+//         response = await fetch(`/api/homelab`, {
+//             method: "GET"
+//         });
+//     } catch (e) {
+//         console.error("error fetching homelab:", e);
+//         homelabError();
+//         return;
+//     }
+
+//     if (!response.ok) {
+//         console.error("error fetching homelab:", response);
+//         homelabError();
+//         return;
+//     }
+//     homelabElement.innerHTML = await response.text();
+// }
+
+// function homelabError() {
+//     const homelabElement = document.querySelector("#homelab");
+//     if (homelabElement) {
+//         homelabElement.innerHTML = `<span class="error">Error fetching homelab data</span>`;
+//     }
+// }
 
 let currentTrack = null;
 let animationFrameId = null;
@@ -186,7 +220,8 @@ function endHover() {
 
 function connectWebSocket() {
     // TODO: update this
-    const ws = new WebSocket("ws://localhost:8080/ws");
+    // const ws = new WebSocket("ws://localhost:8080/ws");
+    const ws = new WebSocket("wss://bachtran.dev:7443/tracker-websocket");
 
     ws.onopen = () => {
         console.log("WebSocket: Connected to music websocket");
@@ -306,8 +341,12 @@ function connectWebSocket() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadScoreboard();
-    setInterval(loadScoreboard, 1000 * 10);
+    // await loadScoreboard();
+    // setInterval(loadScoreboard, 1000 * 10);
+
+    // Homelab data is now rendered directly in the template
+    // await loadHomelab();
+    // setInterval(loadHomelab, 1000 * 3); // Refresh every 30 seconds
 
     connectWebSocket();
 });
