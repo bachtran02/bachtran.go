@@ -12,8 +12,8 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/bachtran02/bachtran.go/models"
 
-func createFakeHomelabDevices() []models.HomelabStatus {
-	return []models.HomelabStatus{
+func createFakeHomelabDevices() []models.NodeStatus {
+	return []models.NodeStatus{
 		{
 			CPU: models.CPUMetrics{
 				UsagePercent: 35.7,

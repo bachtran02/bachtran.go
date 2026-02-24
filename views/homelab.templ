@@ -4,7 +4,7 @@ import "github.com/bachtran02/bachtran.go/models"
 import "fmt"
 import "time"
 
-templ Homelab(devices []models.HomelabStatus) {
+templ Homelab(devices []models.NodeStatus) {
 	<section id="homelab" class="section">		
 		<div class="homelab-grid">
 			for _, device := range devices {

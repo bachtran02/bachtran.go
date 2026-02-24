@@ -31,7 +31,6 @@ func (s *Server) FetchGithub(ctx context.Context) (*models.GitHubData, error) {
 			Name:      query.User.Login,
 			AvatarURL: query.User.AvatarURL,
 		},
-		HomeRaw:  query.User.UserRepo.Object.Blob.Text,
 		Projects: parseRepositories(query.User.PinnedItems),
 	}, nil
 }

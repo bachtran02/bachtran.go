@@ -45,43 +45,46 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-.music-info {
+.music-player__info {
     flex: 1;
+    min-width: 0; /* Critical for text-overflow to work in flexbox */
     color: white;
-    min-width: 0;
 }
 
-.music-info h3 {
+/* Title Styling */
+.music-player__title {
+    margin: 0 0 0.125rem 0;
     font-size: 0.875rem;
     font-weight: 700;
-    color: white;
-    margin: 0 0 0.125rem 0;
-    letter-spacing: 0;
+    line-height: 1.2;
 }
 
-.track-details {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.track-details p {
-    margin: 0;
-    font-size: 0.7rem;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.track-details a {
-    color: white;
+.music-player__title a {
     text-decoration: none;
-    font-weight: 500;
+    color: var(--text-primary);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.track-details a:hover {
+.music-player__title a:hover {
     text-decoration: underline;
+}
+
+.music-player__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.music-player__author {
+    color: var(--text-secondary);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .track-time {
@@ -102,7 +105,7 @@
 #progress-bar {
     height: 100%;
     background-color: white;
-    width: 60%;
+    width: 0%;
     transition: width 0.1s linear;
 }
 

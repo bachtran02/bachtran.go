@@ -16,8 +16,8 @@ import (
 	"golang.org/x/exp/slog"
 )
 
-func createFakeHomelabDevices() []models.HomelabStatus {
-	return []models.HomelabStatus{
+func createFakeHomelabDevices() []models.NodeStatus {
+	return []models.NodeStatus{
 		{
 			CPU: models.CPUMetrics{
 				UsagePercent: 35.7,
@@ -182,16 +182,16 @@ func (s *Server) Routes() http.Handler {
 	r.Mount("/assets", http.FileServer(s.assets))
 	r.Group(func(r chi.Router) {
 		r.Route("/fragments", func(r chi.Router) {
-			r.Get("/projects", s.handleProjectsFragment)
+			// r.Get("/projects", s.handleProjectsFragment)
 			r.Get("/homelab", s.handleHomelabFragment)
 		})
 		r.Route("/api", func(r chi.Router) {
 			r.Route("/music", func(r chi.Router) {
 				r.Get("/", s.music)
 			})
-			r.Route("/homelab", func(r chi.Router) {
-				r.Get("/", s.homelabAPI)
-			})
+			// r.Route("/homelab", func(r chi.Router) {
+			// 	r.Get("/", s.homelabAPI)
+			// })
 		})
 		r.Route("/", func(r chi.Router) {
 			r.Get("/", s.index)
@@ -210,11 +210,6 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = s.ParseMarkdown(data); err != nil {
-		s.error(w, r, fmt.Errorf("failed to parse ABOUTME.md: %w", err), http.StatusInternalServerError)
-		return
-	}
-
 	ch := &templ.ComponentHandler{
 		Component:   views.Index(*data),
 		ContentType: "text/html; charset=utf-8",
@@ -223,7 +218,13 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) music(w http.ResponseWriter, r *http.Request) {
-	views.Music().Render(r.Context(), w)
+
+	musicStatus, err := s.musicClient.FetchMusicStatus()
+	if err != nil {
+		s.error(w, r, fmt.Errorf("failed to fetch music status: %w", err), http.StatusInternalServerError)
+		return
+	}
+	views.MusicPlayerContent(*musicStatus).Render(r.Context(), w)
 }
 
 // func (s *Server) projects(w http.ResponseWriter, r *http.Request) {
@@ -255,15 +256,15 @@ func (s *Server) music(w http.ResponseWriter, r *http.Request) {
 // 	ch.ServeHTTP(w, r)
 // }
 
-func (s *Server) homelabAPI(w http.ResponseWriter, r *http.Request) {
-	status, err := s.prometheusClient.FetchHomelabStatus()
-	if err != nil {
-		s.error(w, r, fmt.Errorf("failed to fetch homelab status: %w", err), http.StatusInternalServerError)
-		return
-	}
-	devices := []models.HomelabStatus{*status}
-	views.Homelab(devices).Render(r.Context(), w)
-}
+// func (s *Server) homelabAPI(w http.ResponseWriter, r *http.Request) {
+// 	status, err := s.prometheusClient.FetchHomelabStatus()
+// 	if err != nil {
+// 		s.error(w, r, fmt.Errorf("failed to fetch homelab status: %w", err), http.StatusInternalServerError)
+// 		return
+// 	}
+// 	devices := []models.HomelabStatus{*status}
+// 	views.Homelab(devices).Render(r.Context(), w)
+// }
 
 func (s *Server) redirectRoot(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)

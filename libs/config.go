@@ -21,12 +21,12 @@ func LoadConfig(path string) (Config, error) {
 }
 
 type Config struct {
-	GitHub      GitHubConfig     `yaml:"github"`
-	Scoreboard  ScoreboardConfig `yaml:"scoreboard"`
-	Prometheus  PrometheusConfig `yaml:"prometheus"`
-	ListenAddr  string           `yaml:"listen_addr"`
-	AboutMePath string           `yaml:"aboutme_path"`
-	Log         LogConfig        `yaml:"log"`
+	GitHub        GitHubConfig  `yaml:"github"`
+	Homelab       HomelabConfig `yaml:"homelab"`
+	MusicEndpoint string        `yaml:"music_endpoint"`
+	ListenAddr    string        `yaml:"listen_addr"`
+	Log           LogConfig     `yaml:"log"`
+	// Scoreboard  ScoreboardConfig `yaml:"scoreboard"`
 }
 
 type GitHubConfig struct {
@@ -34,16 +34,23 @@ type GitHubConfig struct {
 	User        string `yaml:"user"`
 }
 
-type ScoreboardConfig struct {
-	Team string `yaml:"team"`
-}
-
-type PrometheusConfig struct {
-	NodeExporterURL string `yaml:"node_exporter_url"`
-}
+// type ScoreboardConfig struct {
+// 	Team string `yaml:"team"`
+// }
 
 type LogConfig struct {
 	Level     slog.Level `yaml:"level"`
 	Format    string     `yaml:"format"`
 	AddSource bool       `yaml:"add_source"`
+}
+
+type HomelabConfig struct {
+	HomelabServer struct {
+		NodesConfig []NodeConfig `yaml:"nodes"`
+	} `yaml:"homelab_server"`
+}
+
+type NodeConfig struct {
+	Name            string `yaml:"name"`
+	NodeExporterUrl string `yaml:"node_exporter_url"`
 }

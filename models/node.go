@@ -1,6 +1,6 @@
 package models
 
-type HomelabStatus struct {
+type NodeStatus struct {
 	CPU        CPUMetrics
 	Memory     MemoryMetrics
 	Disk       DiskMetrics

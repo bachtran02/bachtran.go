@@ -28,7 +28,7 @@ func Hero(data models.Data) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section id=\"hero\" class=\"section\"><div class=\"hero-banner\"><img src=\"https://live.staticflickr.com/65535/55083749486_cabb294cd5_k.jpg\" alt=\"banner\" class=\"banner-image\"><div class=\"banner-overlay\"></div></div><div class=\"hero-avatar\"><img src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section id=\"hero\" class=\"section\"><div class=\"hero-banner\"><img src=\"https://live.staticflickr.com/65535/55042039154_d6fcd6c855_6k.jpg\" alt=\"banner\" class=\"banner-image\"></div><div class=\"hero-avatar\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

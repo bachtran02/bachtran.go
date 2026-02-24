@@ -1,27 +1,42 @@
 package views
 
-templ Music() {
-    <section class="section" id="music">
-        <div class="player">
-        <div id="music-player-content" style="display: flex;">
+import "time"
+import "fmt"
+import "github.com/bachtran02/bachtran.go/models"
+
+templ MusicPlayerContent(status models.MusicStatus) {
+    if status.Playing {
+        <div id="music-player-content"
+            hx-on::after-settle="alert('Making a request!')">
             <div class="player-content">
-                <img id="track-artwork" src="https://i.scdn.co/image/ab67616d0000b273e319baafd16e84f0408af2a0" alt="track-image"/>
-                <div class="music-info">
-                    <h3 id="track-artist">Mikel Arteta</h3>
-                    <div class="track-details">
-                        <p><a id="track-title" href="#" target="_blank">Eighty Leon</a></p>
+                <img id="track-artwork" src={ status.Track.ArtworkURL } alt="track-image"/>
+                <div class="music-player__info">
+                    <h3 class="music-player__title">
+                        <a href={ templ.SafeURL(status.Track.URI) } 
+                        target="_blank" 
+                        rel="noopener noreferrer">
+                            { status.Track.Title }
+                        </a>
+                    </h3>
+                    <div class="music-player__meta">
+                        <span class="music-player__author">{ status.Track.Author }</span>
                     </div>
                 </div>
                 <div class="track-time">
-                    <span id="current-time">2:14</span> / <span id="total-duration">3:45</span>
+                    <span id="current-time-display">{ formatDuration(status.Position) }</span> / 
+                    <span id="total-duration-display">{ formatDuration(status.Track.Length) }</span>
                 </div>
             </div>
-            <div class="progress-bar-container">
+            <div class="progress-bar-container" 
+             id="progress-container"
+             data-current={ fmt.Sprint(status.Position) } 
+             data-total={ fmt.Sprint(status.Track.Length) }>
                 <div id="progress-bar" class="progress-bar"></div>
             </div>
         </div>
-        <div id="not-streaming-message" style="display: none;">
-            <div class="player-content">
+    } else {
+        <div id="not-streaming-message">
+             <div class="player-content">
                 <div class="radio-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="2"/>
@@ -33,6 +48,28 @@ templ Music() {
                 </div>
             </div>
         </div>
-    </div>
+    }
+}
+
+templ Music() {
+    <section class="section" id="music">
+        <div class="player" 
+             hx-get="/api/music"
+             hx-trigger="every 30s, load" 
+             hx-swap="innerHTML"
+             hx-on--after-settle="initProgressBar()">
+            <p>Loading player...</p>
+        </div>
     </section>
+}
+
+func formatDuration(ms int) string {
+	d := time.Duration(ms) * time.Millisecond
+	h := int(d.Hours())
+	m := int(d.Minutes()) % 60
+	s := int(d.Seconds()) % 60
+	if h > 0 {
+		return fmt.Sprintf("%d:%02d:%02d", h, m, s)
+	}
+	return fmt.Sprintf("%d:%02d", m, s)
 }

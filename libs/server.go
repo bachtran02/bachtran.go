@@ -16,7 +16,8 @@ func NewServer(version string, cfg Config, httpClient *http.Client, githubClient
 		cfg:              cfg,
 		httpClient:       httpClient,
 		githubClient:     githubClient,
-		prometheusClient: NewPrometheusClient(cfg.Prometheus.NodeExporterURL),
+		musicClient:      NewMusicClient(cfg.MusicEndpoint),
+		prometheusClient: NewPrometheusClient(cfg.Homelab.HomelabServer.NodesConfig),
 		assets:           assets,
 	}
 
@@ -33,6 +34,7 @@ type Server struct {
 	cfg              Config
 	httpClient       *http.Client
 	githubClient     *githubv4.Client
+	musicClient      *MusicClient
 	prometheusClient *PrometheusClient
 	server           *http.Server
 	assets           http.FileSystem
