@@ -1,0 +1,84 @@
+package views
+
+import "time"
+import "fmt"
+import "github.com/bachtran02/bachtran.go/models"
+
+templ MusicPlayerContent(status models.MusicStatus) {
+    if status.Playing {
+        <div id="music-player-content">
+            <div class="player-content">
+                <img id="track-artwork" src={ status.Track.ArtworkURL } alt="track-image"/>
+                <div class="music-player__info">
+                    <h3 class="music-player__title">
+                        <a href={ templ.SafeURL(status.Track.URI) } 
+                        target="_blank" 
+                        rel="noopener noreferrer">
+                            { status.Track.Title }
+                        </a>
+                    </h3>
+                    <div class="music-player__meta">
+                        <span class="music-player__author">{ status.Track.Author }</span>
+                    </div>
+                </div>
+                <div class="track-time">
+                    if status.Track.IsStream {
+                        <span id="current-time-display">Live</span>
+                    } else {
+                        <span id="current-time-display">{ formatDuration(status.Position) }</span> / 
+                        <span id="total-duration-display">{ formatDuration(status.Track.Length) }</span>
+                    }
+                </div>
+            </div>
+            <div class="progress-bar-container" 
+             id="progress-container"
+             data-is-stream = { fmt.Sprint(status.Track.IsStream) }
+             data-current={ fmt.Sprint(status.Position) } 
+             data-total={ fmt.Sprint(status.Track.Length) }>
+
+                if status.Track.IsStream {
+                    <div id="progress-bar" class="progress-bar" style="width: 100%;"></div>
+                } else {
+                    <div id="progress-bar" class="progress-bar"></div>
+                }
+            </div>
+        </div>
+    } else {
+        <div id="not-streaming-message">
+             <div class="player-content">
+                <div class="radio-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="2"/>
+                        <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+                    </svg>
+                </div>
+                <div class="music-info">
+                    <h4>Not currently streaming!</h4>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+templ Music() {
+    <section class="section" id="music">
+        <div class="player" 
+             hx-get="/api/music"
+             hx-trigger="every 15s, load" 
+             hx-swap="innerHTML"
+             hx-on--after-settle="initProgressBar()">
+            <p>Loading player...</p>
+        </div>
+    </section>
+}
+
+func formatDuration(ms int) string {
+	d := time.Duration(ms) * time.Millisecond
+	h := int(d.Hours())
+	m := int(d.Minutes()) % 60
+	s := int(d.Seconds()) % 60
+	if h > 0 {
+		return fmt.Sprintf("%d:%02d:%02d", h, m, s)
+	}
+	return fmt.Sprintf("%d:%02d", m, s)
+}

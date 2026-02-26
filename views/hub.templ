@@ -1,0 +1,35 @@
+// views/tabs.templ
+package views
+
+import "github.com/bachtran02/bachtran.go/models"
+
+templ Hub(data models.Data) {
+    <div class="hub-container">
+        <input type="radio" name="hub_tabs" id="tab-homelab" class="state-control" checked />
+        <input type="radio" name="hub_tabs" id="tab-projects" class="state-control" />
+
+        <div class="hub-tabs">
+            <label for="tab-homelab" class="hub-tab">Homelab</label>
+            <label for="tab-projects" class="hub-tab">Projects</label>
+        </div>
+
+        <div class="tab-panels hub-list">
+            <section id="content-homelab" class="panel"
+              hx-get="/api/homelab" 
+              hx-trigger="load, every 15s" 
+              hx-swap="innerHTML">
+
+                <div class="homelab-grid">
+                    for _, nodeConfig := range data.NodesConfig {
+                        @DeviceCard(models.NodeStatus{SystemInfo: models.SystemInfo{Hostname: nodeConfig.Name}})
+                    }
+                </div>
+                
+            </section>
+            
+            <section id="content-projects" class="panel">
+                @Projects(*data.Github)
+            </section>
+        </div>
+    </div>
+}

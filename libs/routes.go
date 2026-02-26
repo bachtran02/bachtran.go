@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/bachtran02/bachtran.go/models"
+	md "github.com/bachtran02/bachtran.go/models"
 
-	tmpl "github.com/bachtran02/bachtran.go/templates"
+	views "github.com/bachtran02/bachtran.go/views"
 
 	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
@@ -44,11 +44,11 @@ func (s *Server) Routes() http.Handler {
 	r.Mount("/assets", http.FileServer(s.assets))
 	r.Group(func(r chi.Router) {
 		r.Route("/api", func(r chi.Router) {
-			r.Route("/scoreboard", func(r chi.Router) {
-				r.Get("/", s.scoreboard)
-			})
 			r.Route("/music", func(r chi.Router) {
 				r.Get("/", s.music)
+			})
+			r.Route("/homelab", func(r chi.Router) {
+				r.Get("/", s.homelab)
 			})
 		})
 		r.Route("/", func(r chi.Router) {
@@ -68,30 +68,34 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = s.ParseMarkdown(data); err != nil {
-		s.error(w, r, fmt.Errorf("failed to parse ABOUTME.md: %w", err), http.StatusInternalServerError)
-		return
-	}
-
 	ch := &templ.ComponentHandler{
-		Component:   tmpl.Index(*data),
+		Component:   views.Index(*data),
 		ContentType: "text/html; charset=utf-8",
 	}
 	ch.ServeHTTP(w, r)
 }
 
-func (s *Server) scoreboard(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	sb, err := s.FetchScoreboard(ctx)
+func (s *Server) music(w http.ResponseWriter, r *http.Request) {
+
+	musicStatus, err := s.dataService.GetMusicData()
 	if err != nil {
-		s.error(w, r, fmt.Errorf("failed to fetch scoreboard data: %w", err), http.StatusInternalServerError)
+		s.error(w, r, fmt.Errorf("failed to fetch music status: %w", err), http.StatusInternalServerError)
 		return
 	}
-	tmpl.Scoreboard(sb).Render(r.Context(), w)
+	views.MusicPlayerContent(musicStatus).Render(r.Context(), w)
 }
 
-func (s *Server) music(w http.ResponseWriter, r *http.Request) {
-	tmpl.Music().Render(r.Context(), w)
+func (s *Server) homelab(w http.ResponseWriter, r *http.Request) {
+	nodeStatuses, err := s.dataService.GetNodeStatuses()
+	if err != nil {
+		s.error(w, r, fmt.Errorf("failed to fetch status: %w", err), http.StatusInternalServerError)
+		return
+	}
+	if len(nodeStatuses) == 0 {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+	views.Homelab(nodeStatuses).Render(r.Context(), w)
 }
 
 func (s *Server) redirectRoot(w http.ResponseWriter, r *http.Request) {
@@ -104,14 +108,14 @@ func (s *Server) error(w http.ResponseWriter, r *http.Request, err error, status
 	}
 	w.WriteHeader(status)
 
-	vars := models.Error{
+	vars := md.Error{
 		Error:  err.Error(),
 		Status: status,
 		Path:   r.URL.Path,
 	}
 
 	ch := &templ.ComponentHandler{
-		Component:   tmpl.Error(vars),
+		Component:   views.Error(vars),
 		ContentType: "text/html; charset=utf-8",
 	}
 	ch.ServeHTTP(w, r)
@@ -120,7 +124,10 @@ func (s *Server) error(w http.ResponseWriter, r *http.Request, err error, status
 func cacheControl(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/assets/") {
-			w.Header().Set("Cache-Control", "public, max-age=86400")
+			// Disable caching for assets in development
+			w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+			w.Header().Set("Pragma", "no-cache")
+			w.Header().Set("Expires", "0")
 			next.ServeHTTP(w, r)
 			return
 		}

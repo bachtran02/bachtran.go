@@ -1,0 +1,69 @@
+.hub-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  background-color: var(--bg-secondary);
+}
+
+.hub-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hub-tab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  text-align: center;
+}
+
+.hub-tab:hover {
+  color: var(--text-primary);
+}
+
+.hub-tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
+}
+
+.state-control {
+    display: none;
+}
+
+.panel {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+#tab-homelab:checked ~ .tab-panels #content-homelab,
+#tab-projects:checked ~ .tab-panels #content-projects {
+    display: block;
+}
+
+#tab-homelab:checked ~ .hub-tabs label[for="tab-homelab"],
+#tab-projects:checked ~ .hub-tabs label[for="tab-projects"] {
+    color: var(--text-primary);
+    border-bottom-color: var(--text-primary);
+}
+
+/* Smooth Fade Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hub-list {
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

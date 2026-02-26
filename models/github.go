@@ -29,7 +29,6 @@ type Topic struct {
 
 type GitHubData struct {
 	User     User
-	HomeRaw  string
 	Projects []Project
 }
 

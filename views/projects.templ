@@ -1,0 +1,49 @@
+package views
+
+import "github.com/bachtran02/bachtran.go/models"
+import "fmt"
+
+templ Projects(data models.GitHubData) {
+    <section id="projects" class="section">
+        <div class="projects-grid">
+            for _, project := range data.Projects {
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-name">
+                            <span class="icon"></span>
+                            <a href={ project.URL } target="_blank">{ project.Name }</a>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        { project.Description }
+                    </p>
+                    <div class="project-footer">
+                        <div class="project-stats">
+                            if project.Language != nil {
+                                <div class="project-language">
+                                    <span class={ fmt.Sprintf("language-dot language-dot-%s", project.Language.Color[1:]) }></span>
+                                    <span>{ project.Language.Name }</span>
+                                </div>
+                            }
+                            <div class="project-stat">
+                                <span class="icon project-stars"></span>
+                                <span>{ fmt.Sprintf("%d", project.Stars) }</span>
+                            </div>
+                            <div class="project-stat">
+                                <span class="icon project_forks"></span>
+                                <span>{ fmt.Sprintf("%d", project.Forks) }</span>
+                            </div>
+                        </div>
+                        if project.Topics != nil && len(project.Topics) > 0 {
+                            <div class="project-topics">
+                                for _, topic := range project.Topics {
+                                    <span class="project-topic">{ topic.Name }</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}

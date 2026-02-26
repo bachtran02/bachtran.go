@@ -1,0 +1,77 @@
+.hero-banner {
+  height: clamp(160px, 25vw, 280px); 
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 32px 0;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+.hero-avatar {
+  display: flex;
+  margin-top: clamp(-70px, -10vw, -90px); 
+  margin-left: 1.0rem;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-avatar img {
+  width: clamp(100px, 15vw, 132px);
+  height: clamp(100px, 15vw, 132px);
+  border-radius: 24px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 700px) {
+
+  .section#hero {
+    padding: 0;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-banner {
+    border-radius: 0;
+  }
+
+  .banner-image {
+    object-position: center 20%;
+  }
+
+  .hero-avatar {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-info {
+    text-align: center;
+    width: 100%;
+    padding: 0.4rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+}
