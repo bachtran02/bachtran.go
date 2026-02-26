@@ -42,7 +42,7 @@ body {
 main {
   flex: 1;
   max-width: 700px;
-  width: 90%;
+  width: 100%;
 }
 
 /* Section Styles */
@@ -71,4 +71,16 @@ footer a:hover {
 .htmx-request {
     opacity: 0.5;
     transition: opacity 0.2s ease-in;
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .section {
+    padding: 0 1rem;
+  }
 }

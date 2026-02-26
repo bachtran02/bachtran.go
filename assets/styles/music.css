@@ -47,7 +47,7 @@
 
 .music-player__info {
     flex: 1;
-    min-width: 0; /* Critical for text-overflow to work in flexbox */
+    min-width: 0;
     color: white;
 }
 
@@ -118,4 +118,10 @@
 
 #not-streaming-message .music-info h4 {
     opacity: 0.7;
+}
+
+@media (max-width: 400px) {
+    .track-time {
+        display: none;
+    }
 }
