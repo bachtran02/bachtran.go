@@ -1,22 +1,17 @@
-version: '3.8'
-
 services:
-  app:
+  bachtrango:
     build:
       context: .
       dockerfile: Dockerfile
-    image: go_webapp
-    container_name: app
-    ports:
-      - 80:80
-    restart: unless-stopped
-    depends_on:
-      - traefik
+    container_name: bachtrango
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`foo.xyz`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
-      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.routers.site.rule=Host(`bachtran.dev`)"
+      - "traefik.http.routers.site.entrypoints=websecure"
+      - "traefik.http.routers.site.tls.certresolver=myresolver"
+      - "traefik.http.routers.site.tls=true"
+      - "traefik.http.services.site.loadbalancer.server.port=80"
+    restart: unless-stopped
 
   traefik:
     image: "traefik:latest"
@@ -25,17 +20,17 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      - "--entryPoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge.provider={dns provier}"
-      - "--certificatesresolvers.myresolver.acme.email={foo.email}"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.provider="
+      - "--certificatesresolvers.myresolver.acme.email="
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "443:443"
-      - "8080:8080"
+    restart: unless-stopped
     environment:
-      - "{value}={key}"
+      - "CF_API_EMAIL="
+      - "CF_DNS_API_TOKEN="
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
