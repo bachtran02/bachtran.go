@@ -2,17 +2,14 @@ github:
   access_token:
   user:
 
-weather_api:
-  api_key:
-  city:
+music_endpoint: 
 
-scoreboard:
-  team:
-
-prometheus:
-  node_exporter_url: http://localhost:9100
-
-listen_addr: 
+homelab:
+  nodes:
+    - name: node-name
+      node_exporter_url: http://127.0.0.1:9100/metrics
+    
+listen_addr: 127.0.0.1:8888
 
 log:
   level: debug
