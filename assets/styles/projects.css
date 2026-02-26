@@ -23,12 +23,6 @@
   gap: 1rem;
 }
 
-.project-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
-}
-
 .project-header {
   display: flex;
   justify-content: space-between;
@@ -59,18 +53,6 @@
     background-size: 1.5rem;
     width: 1.5rem;
     height: 1.5rem;
-}
-
-.project-link-btn {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.2s;
-  white-space: nowrap;
-}
-
-.project-link-btn:hover {
-  color: var(--accent);
 }
 
 .project-description {

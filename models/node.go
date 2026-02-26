@@ -6,12 +6,12 @@ type NodeStatus struct {
 	Disk       DiskMetrics
 	Network    NetworkMetrics
 	SystemInfo SystemInfo
+	Online     bool
 	Uptime     float64 // in seconds
 }
 
 type CPUMetrics struct {
 	UsagePercent float64
-	Cores        int
 	Temperature  float64 // in Celsius
 }
 
@@ -30,12 +30,16 @@ type DiskMetrics struct {
 }
 
 type NetworkMetrics struct {
-	BytesSent     uint64
-	BytesReceived uint64
+	UpSpeed   float64
+	DownSpeed float64
 }
 
 type SystemInfo struct {
-	Hostname string
-	OS       string
-	Kernel   string
+	Hostname     string
+	Cores        int
+	OS           string
+	MaxFreqGHz   float64
+	Architecture string
+	TotalRAM     uint64
+	TotalDisk    uint64
 }

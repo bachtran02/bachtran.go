@@ -3,10 +3,10 @@ package views
 import "github.com/bachtran02/bachtran.go/models"
 import "fmt"
 
-templ Projects(data models.Data) {
+templ Projects(data models.GitHubData) {
     <section id="projects" class="section">
         <div class="projects-grid">
-            for _, project := range data.Github.Projects {
+            for _, project := range data.Projects {
                 <div class="project-card">
                     <div class="project-header">
                         <div class="project-name">

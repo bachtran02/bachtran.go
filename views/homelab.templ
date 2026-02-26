@@ -4,39 +4,56 @@ import "github.com/bachtran02/bachtran.go/models"
 import "fmt"
 import "time"
 
-templ Homelab(devices []models.NodeStatus) {
-	<section id="homelab" class="section">		
-		<div class="homelab-grid">
-			for _, device := range devices {
-				<div class="device-card">
-					<div class="device-header">
-						<h3 class="device-name">{ device.SystemInfo.Hostname }</h3>
-						<span class="device-uptime">{ formatUptime(device.Uptime) }</span>
-					</div>
-					<div class="device-metrics">
-						<div class="metric-item">
-							<span class="metric-label">CPU</span>
-							<span class="metric-value">{ fmt.Sprintf("%.0f%%", device.CPU.UsagePercent) }</span>
-						</div>
-						<div class="metric-item">
-							<span class="metric-label">MEM</span>
-							<span class="metric-value">{ fmt.Sprintf("%.0f%%", device.Memory.UsedPercent) }</span>
-						</div>
-						<div class="metric-item">
-							<span class="metric-label">DISK</span>
-							<span class="metric-value">{ fmt.Sprintf("%.0f%%", device.Disk.UsedPercent) }</span>
-						</div>
-						if device.CPU.Temperature > 0 {
-							<div class="metric-item">
-								<span class="metric-label">TEMP</span>
-								<span class="metric-value">{ fmt.Sprintf("%.0f°C", device.CPU.Temperature) }</span>
-							</div>
-						}
-					</div>
-				</div>
+templ DeviceCard(device models.NodeStatus) {
+    <div class="device-card">
+        <div class="device-header">
+			<div class="name-group">
+				<span class={ "status-dot", templ.KV("online", device.Online), templ.KV("offline", !device.Online) }></span>
+				<h3 class="device-name">{ device.SystemInfo.Hostname }</h3>
+			</div>
+			<span class="info-icon" 
+			  data-tooltip={ formatTooltip(device.SystemInfo) }>
+				🛈
+			</span>
+            <span class="device-uptime">{ formatUptime(device.Uptime) }</span>
+        </div>
+        <div class="device-metrics">
+            @MetricItem("CPU", device.CPU.UsagePercent, "%")
+            @MetricItem("Mem", device.Memory.UsedPercent, "%")
+            @MetricItem("Disk", device.Disk.UsedPercent, "%")
+			if device.CPU.Temperature > 0 {
+				@MetricItem("Temp", device.CPU.Temperature, "°C")
 			}
-		</div>
-	</section>
+			@MetricItem("TX", device.Network.UpSpeed, "Mbps")
+			@MetricItem("RX", device.Network.DownSpeed, "Mbps")    
+        </div>
+    </div>
+}
+
+templ MetricItem(label string, value float64, unit string) {
+    <div class="metric-item">
+        <span class="metric-label">{ label }</span>
+        <div class="metric-value-container">
+            <span class="metric-number">
+                if unit == "Mbps" {
+                    { fmt.Sprintf("%.1f", value) }
+                } else {
+                    { fmt.Sprintf("%.0f", value) }
+                }
+            </span>
+            <span class="metric-unit">{ unit }</span>
+        </div>
+    </div>
+}
+
+templ Homelab(devices []models.NodeStatus) {
+    <section id="homelab" class="section">      
+        <div class="homelab-grid">
+			for _, device := range devices {
+				@DeviceCard(device)
+			}
+        </div>
+    </section>
 }
 
 func formatBytes(bytes uint64) string {
@@ -64,4 +81,20 @@ func formatUptime(seconds float64) string {
 		return fmt.Sprintf("%dh %dm", hours, minutes)
 	}
 	return fmt.Sprintf("%dm", minutes)
+}
+
+func formatTooltip(info models.SystemInfo) string {
+    totalRAMGB := float64(info.TotalRAM) / (1024 * 1024 * 1024)
+    totalDiskGB := float64(info.TotalDisk) / (1024 * 1024 * 1024)
+
+    return fmt.Sprintf(
+        "OS: %s (%s)\n"+
+        "CPU: %d Cores @ %.1f GHz\n"+
+        "RAM: %.2f GB\n"+
+        "Disk: %.2f GB",
+        info.OS, info.Architecture,
+        info.Cores, info.MaxFreqGHz,
+        totalRAMGB,
+        totalDiskGB,
+    )
 }

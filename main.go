@@ -12,6 +12,8 @@ import (
 	"time"
 
 	"github.com/bachtran02/bachtran.go/libs"
+	md "github.com/bachtran02/bachtran.go/models"
+	"go.yaml.in/yaml/v2"
 
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/exp/slog"
@@ -27,7 +29,7 @@ func main() {
 	cfgPath := flag.String("config", "config.yml", "path to config file")
 	flag.Parse()
 
-	cfg, err := libs.LoadConfig(*cfgPath)
+	cfg, err := LoadConfig(*cfgPath)
 	if err != nil {
 		slog.Error("failed to load config", slog.Any("error", err))
 		os.Exit(-1)
@@ -49,8 +51,13 @@ func main() {
 					AccessToken: cfg.GitHub.AccessToken,
 				},
 			)))
+	musicClient := libs.NewMusicClient(cfg.MusicEndpoint)
+	prometheusClient := libs.NewPrometheusClient(cfg.Homelab.Nodes)
 
-	s := libs.NewServer("null", cfg, httpClient, githubClient, assets)
+	dataService := libs.NewDataService(prometheusClient, musicClient)
+	go dataService.StartService(context.Background())
+
+	s := libs.NewServer(cfg, dataService, httpClient, githubClient, assets)
 	go s.Start()
 	defer s.Close()
 
@@ -60,7 +67,19 @@ func main() {
 	<-si
 }
 
-func setupLogger(cfg libs.LogConfig) {
+func LoadConfig(path string) (md.Config, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return md.Config{}, err
+	}
+	var cfg md.Config
+	if err = yaml.NewDecoder(file).Decode(&cfg); err != nil {
+		return md.Config{}, err
+	}
+	return cfg, nil
+}
+
+func setupLogger(cfg md.LogConfig) {
 	opts := &slog.HandlerOptions{
 		AddSource: cfg.AddSource,
 		Level:     cfg.Level,

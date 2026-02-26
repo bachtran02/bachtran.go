@@ -1,18 +1,18 @@
-function initProgressBar() {
-    console.log("Checking player state...");
-    
-    // Always clear the old interval first to prevent memory leaks
+function initProgressBar() {    
+    // Clean up old interval to prevent memory leaks
     if (window.musicInterval) {
         clearInterval(window.musicInterval);
         window.musicInterval = null;
     }
 
     const container = document.getElementById('progress-container');
-    
-    // If the container doesn't exist (Not Streaming mode), we just stop here.
     if (!container) {
-        console.log("Not streaming - Timer cleared.");
-        return;
+        return; // Container doesn't exist
+    }
+
+    const isStream = container.getAttribute('data-is-stream') === 'true';
+    if (isStream) {
+        return; // No need to start interval for streams
     }
 
     let currentMs = parseInt(container.getAttribute('data-current'));
@@ -31,12 +31,20 @@ function initProgressBar() {
         if (bar) bar.style.width = percent + '%';
 
         if (timeDisplay) {
-            const minutes = Math.floor(currentMs / 60000);
+            const hours = Math.floor(currentMs / 3600000);
+            const minutes = Math.floor((currentMs % 3600000) / 60000);
             const seconds = Math.floor((currentMs % 60000) / 1000);
-            timeDisplay.innerText = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+
+            let timeString = "";
+
+            if (hours > 0) {
+                timeString = hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+            } else {
+                timeString = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+            }
+            timeDisplay.innerText = timeString;
         }
     };
-
     updateUI();
     window.musicInterval = setInterval(updateUI, 1000);    
 }

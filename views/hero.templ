@@ -5,15 +5,14 @@ import "github.com/bachtran02/bachtran.go/models"
 templ Hero(data models.Data) {
     <section id="hero" class="section">
         <div class="hero-banner">
-            <img src="https://live.staticflickr.com/65535/55042039154_d6fcd6c855_6k.jpg" alt="banner" class="banner-image"/>
-            // <div class="banner-overlay"></div>
+            <img src="../assets/banner.jpg" alt="banner" class="banner-image"/>
         </div>
         <div class="hero-avatar">
             <img src={ data.Github.User.AvatarURL } alt="avatar"/>
         </div>
         <div class="hero-info">
             <div class="hero-title">Bach Tran</div>
-            <div class="hero-subtitle">UC Berkeley @ 2025 </div>
+            <div class="hero-subtitle">UC Berkeley '25 </div>
         </div>
     </section>
 }

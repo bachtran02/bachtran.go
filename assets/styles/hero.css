@@ -1,20 +1,20 @@
 .hero-banner {
-  height: 270px;
+  height: 290px;
   position: relative;
   overflow: hidden;
-  border-radius: 0 0 32px 32px;
+  border-radius: 0 0 32px 0;
 }
 
 .banner-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 25%;
   position: absolute;
   inset: 0;
 }
 
-.banner-overlay {
+/* .banner-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, 
@@ -25,23 +25,22 @@
     rgba(10, 10, 10, 1) 90%,
     rgba(10, 10, 10, 1) 100%);
   z-index: 1;
-}
+} */
 
 .hero-avatar {
   display: flex;
   align-items: flex-end;
-  margin: -90px 0 10px 10px;
+  margin: -90px 0 0px 10px;
   position: relative;
   z-index: 10;
   flex-shrink: 0;
-  position: relative;
 }
 
 .hero-avatar img {
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
-  border: 3px solid var(--bg-primary);
+  width: 132px;
+  height: 132px;
+  border-radius: 28px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
   object-fit: cover;
 }
 

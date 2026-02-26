@@ -6,8 +6,7 @@ import "github.com/bachtran02/bachtran.go/models"
 
 templ MusicPlayerContent(status models.MusicStatus) {
     if status.Playing {
-        <div id="music-player-content"
-            hx-on::after-settle="alert('Making a request!')">
+        <div id="music-player-content">
             <div class="player-content">
                 <img id="track-artwork" src={ status.Track.ArtworkURL } alt="track-image"/>
                 <div class="music-player__info">
@@ -23,15 +22,25 @@ templ MusicPlayerContent(status models.MusicStatus) {
                     </div>
                 </div>
                 <div class="track-time">
-                    <span id="current-time-display">{ formatDuration(status.Position) }</span> / 
-                    <span id="total-duration-display">{ formatDuration(status.Track.Length) }</span>
+                    if status.Track.IsStream {
+                        <span id="current-time-display">Live</span>
+                    } else {
+                        <span id="current-time-display">{ formatDuration(status.Position) }</span> / 
+                        <span id="total-duration-display">{ formatDuration(status.Track.Length) }</span>
+                    }
                 </div>
             </div>
             <div class="progress-bar-container" 
              id="progress-container"
+             data-is-stream = { fmt.Sprint(status.Track.IsStream) }
              data-current={ fmt.Sprint(status.Position) } 
              data-total={ fmt.Sprint(status.Track.Length) }>
-                <div id="progress-bar" class="progress-bar"></div>
+
+                if status.Track.IsStream {
+                    <div id="progress-bar" class="progress-bar" style="width: 100%;"></div>
+                } else {
+                    <div id="progress-bar" class="progress-bar"></div>
+                }
             </div>
         </div>
     } else {
@@ -44,7 +53,7 @@ templ MusicPlayerContent(status models.MusicStatus) {
                     </svg>
                 </div>
                 <div class="music-info">
-                    <h3>Not currently streaming!</h3>
+                    <h4>Not currently streaming!</h4>
                 </div>
             </div>
         </div>
@@ -55,7 +64,7 @@ templ Music() {
     <section class="section" id="music">
         <div class="player" 
              hx-get="/api/music"
-             hx-trigger="every 30s, load" 
+             hx-trigger="every 15s, load" 
              hx-swap="innerHTML"
              hx-on--after-settle="initProgressBar()">
             <p>Loading player...</p>

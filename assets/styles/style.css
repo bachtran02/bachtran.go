@@ -47,13 +47,13 @@ main {
 
 /* Section Styles */
 .section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   padding: 0 2rem;
 }
 
 footer {
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
 }

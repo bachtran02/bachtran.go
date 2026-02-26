@@ -15,11 +15,6 @@
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.device-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .device-header {
     display: flex;
     justify-content: space-between;
@@ -27,6 +22,29 @@
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border-color, #e0e0e0);
+}
+
+.name-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.status-dot.online {
+    background-color: #2ecc71;
+    box-shadow: 0 0 8px #2ecc71;
+}
+
+.status-dot.offline {
+    background-color: #95a5a6;
 }
 
 .device-name {
@@ -44,7 +62,7 @@
 
 .device-metrics {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
 }
 
@@ -58,13 +76,71 @@
     font-size: 0.7rem;
     font-weight: 500;
     color: var(--text-secondary, #666);
-    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.metric-value {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary, #333);
-    font-family: monospace;
+.metric-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-value-container {
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+}
+
+.metric-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.metric-unit {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-left: 1px;
+}
+
+.info-icon {
+    position: relative;
+    cursor: help;
+    color: #888;
+    font-size: 1rem;
+    margin-left: 2px;
+}
+
+/* The Tooltip Bubble */
+.info-icon::after {
+    content: attr(data-tooltip);
+    position: absolute;
+
+    bottom: auto;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+    
+    /* Styling */
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: pre;
+    width: max-content;
+    max-width: 250px;
+    z-index: 100;
+    
+    /* Animation */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.info-icon:hover::after,
+.info-icon:hover::before {
+    opacity: 1;
+    visibility: visible;
 }

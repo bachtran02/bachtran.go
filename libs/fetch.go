@@ -8,13 +8,13 @@ import (
 
 func (s *Server) FetchData(ctx context.Context) (*models.Data, error) {
 
-	github, github_err := s.FetchGithub(ctx)
-
-	if github_err != nil {
-		return nil, github_err
+	github, githubErr := s.FetchGithub(ctx)
+	if githubErr != nil {
+		return nil, githubErr
 	}
 
 	return &models.Data{
-		Github: github,
+		Github:      github,
+		NodesConfig: s.cfg.Homelab.Nodes,
 	}, nil
 }

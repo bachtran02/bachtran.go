@@ -6,6 +6,7 @@ type MusicTrack struct {
 	ArtworkURL string `json:"artworkUrl"`
 	Length     int    `json:"length"`
 	URI        string `json:"uri"`
+	IsStream   bool   `json:"isStream"`
 }
 
 type MusicStatus struct {

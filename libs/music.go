@@ -1,6 +1,7 @@
 package libs
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -21,8 +22,12 @@ func NewMusicClient(endpoint string) *MusicClient {
 	}
 }
 
-func (mc *MusicClient) FetchMusicStatus() (*models.MusicStatus, error) {
-	resp, err := mc.HttpClient.Get(mc.APIEndpoint)
+func (mc *MusicClient) FetchMusicStatus(ctx context.Context) (*models.MusicStatus, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, mc.APIEndpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := mc.HttpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
