@@ -1,6 +1,7 @@
 package libs
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -43,13 +44,23 @@ func (s *Server) Routes() http.Handler {
 
 	r.Mount("/assets", http.FileServer(s.assets))
 	r.Group(func(r chi.Router) {
+		r.Route("/rendered", func(r chi.Router) {
+			r.Route("/music", func(r chi.Router) {
+				r.Get("/", s.renderMusic)
+			})
+			r.Route("/homelab", func(r chi.Router) {
+				r.Get("/", s.renderHomelab)
+			})
+		})
 		r.Route("/api", func(r chi.Router) {
 			r.Route("/music", func(r chi.Router) {
 				r.Get("/", s.music)
 			})
-			r.Route("/homelab", func(r chi.Router) {
-				r.Get("/", s.homelab)
-			})
+			/*
+				r.Route("/homelab", func(r chi.Router) {
+					r.Get("/", s.homelab)
+				})
+			*/
 		})
 		r.Route("/", func(r chi.Router) {
 			r.Get("/", s.index)
@@ -76,6 +87,34 @@ func (s *Server) index(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) music(w http.ResponseWriter, r *http.Request) {
+	musicStatus, err := s.dataService.GetMusicData()
+	if err != nil {
+		s.error(w, r, fmt.Errorf("failed to fetch music status: %w", err), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	if err := json.NewEncoder(w).Encode(musicStatus); err != nil {
+		s.error(w, r, fmt.Errorf("failed to write music response: %w", err), http.StatusInternalServerError)
+	}
+}
+
+/*
+func (s *Server) homelab(w http.ResponseWriter, r *http.Request) {
+	nodeStatuses, err := s.dataService.GetNodeStatuses()
+	if err != nil {
+		s.error(w, r, fmt.Errorf("failed to fetch status: %w", err), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	if err := json.NewEncoder(w).Encode(nodeStatuses); err != nil {
+		s.error(w, r, fmt.Errorf("failed to write homelab response: %w", err), http.StatusInternalServerError)
+	}
+}
+*/
+
+func (s *Server) renderMusic(w http.ResponseWriter, r *http.Request) {
 
 	musicStatus, err := s.dataService.GetMusicData()
 	if err != nil {
@@ -85,7 +124,7 @@ func (s *Server) music(w http.ResponseWriter, r *http.Request) {
 	views.MusicPlayerContent(musicStatus).Render(r.Context(), w)
 }
 
-func (s *Server) homelab(w http.ResponseWriter, r *http.Request) {
+func (s *Server) renderHomelab(w http.ResponseWriter, r *http.Request) {
 	nodeStatuses, err := s.dataService.GetNodeStatuses()
 	if err != nil {
 		s.error(w, r, fmt.Errorf("failed to fetch status: %w", err), http.StatusInternalServerError)

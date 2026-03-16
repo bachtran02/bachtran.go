@@ -63,7 +63,7 @@ templ MusicPlayerContent(status models.MusicStatus) {
 templ Music() {
     <section class="section" id="music">
         <div class="player" 
-             hx-get="/api/music"
+             hx-get="/rendered/music"
              hx-trigger="every 15s, load" 
              hx-swap="innerHTML"
              hx-on--after-settle="initProgressBar()">

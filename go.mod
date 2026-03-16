@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.6
 
 require (
-	github.com/a-h/templ v0.3.977
+	github.com/a-h/templ v0.3.1001
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/prometheus/common v0.67.5
 	github.com/shurcooL/githubv4 v0.0.0-20230704064427-599ae7bbf278
