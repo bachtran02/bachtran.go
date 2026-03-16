@@ -13,6 +13,7 @@
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
 }
 
 .device-header {
@@ -103,11 +104,14 @@
 }
 
 .info-icon {
-    position: relative;
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     cursor: help;
     color: #888;
     font-size: 1rem;
-    margin-left: 2px;
+    z-index: 10;
 }
 
 /* The Tooltip Bubble */

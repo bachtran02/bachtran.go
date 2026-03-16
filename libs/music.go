@@ -3,7 +3,7 @@ package libs
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"log/slog"
 	"net/http"
 	"time"
 
@@ -34,12 +34,14 @@ func (mc *MusicClient) FetchMusicStatus(ctx context.Context) (*models.MusicStatu
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("api returned status: %d", resp.StatusCode)
+		slog.Warn("status code not ok", slog.Any("status", resp.StatusCode))
+		return &models.MusicStatus{Playing: false}, nil
 	}
 
 	var status models.MusicStatus
 	if err := json.NewDecoder(resp.Body).Decode(&status); err != nil {
-		return nil, err
+		slog.Warn("failed to decode music status response", "error", err)
+		return &models.MusicStatus{Playing: false}, nil
 	}
 
 	return &status, nil
