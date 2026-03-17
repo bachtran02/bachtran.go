@@ -4,13 +4,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 0 0 32px 0;
-}
-
-.banner-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
+  background-image: url("../banner.jpg");
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
 }
 
 .hero-avatar {
@@ -55,8 +52,9 @@
     border-radius: 0;
   }
 
-  .banner-image {
-    object-position: center 20%;
+  .hero-banner {
+    background-image: url("../banner_small.jpg");
+    background-position: center center;
   }
 
   .hero-avatar {

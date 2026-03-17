@@ -4,9 +4,7 @@ import "github.com/bachtran02/bachtran.go/models"
 
 templ Hero(data models.Data) {
     <section id="hero" class="section">
-        <div class="hero-banner">
-            <img src="../assets/banner.jpg" alt="banner" class="banner-image"/>
-        </div>
+        <div class="hero-banner"></div>
         <div class="hero-avatar">
             <img src={ data.Github.User.AvatarURL } alt="avatar"/>
         </div>
