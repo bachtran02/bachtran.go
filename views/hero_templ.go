@@ -44,7 +44,7 @@ func Hero(data models.Data) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" alt=\"avatar\"></div><div class=\"hero-info\"><div class=\"hero-title\">Bach Tran</div><div class=\"hero-subtitle\">UC Berkeley '25 </div></div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" alt=\"avatar\"></div><div class=\"hero-info\"><div class=\"hero-title\">Bach Tran</div><div class=\"hero-subtitle\">SWE @ Bloomberg</div></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
